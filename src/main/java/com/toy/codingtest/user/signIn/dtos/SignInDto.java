@@ -1,4 +1,4 @@
-package com.toy.codingtest.user.dtos;
+package com.toy.codingtest.user.signIn.dtos;
 
 import lombok.Data;
 
