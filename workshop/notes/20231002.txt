@@ -1,0 +1,8 @@
+엔티티명과 관련된 오류
+    'user'라는 엔티티명을 그대로 사용하면 H2 데이터베이스에서 예약어 관련해서 오류가 발생하는 것으로 보임
+    'user'대신에 'app_user'이름으로 대체해서 사용하는게 좋아보임
+
+UUID 생성 방법(https://offbyone.tistory.com/303)
+    JPA등에서 제공하는 UUID 생성 방식은 현재 버전문제로 적용하기 어려움
+    대신에 Java에서 기본적으로 제공하는 UUID 생성 방식을 사용할 수 있음
+        UUID.randomUUID().toString()
