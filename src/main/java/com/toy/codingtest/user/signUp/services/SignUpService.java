@@ -1,4 +1,4 @@
-package com.toy.codingtest.user.signIn.services;
+package com.toy.codingtest.user.signUp.services;
 
 import java.util.UUID;
 
@@ -6,18 +6,18 @@ import org.springframework.stereotype.Service;
 
 import com.toy.codingtest.user.components.entities.UserEntity;
 import com.toy.codingtest.user.components.repositories.UserRepository;
-import com.toy.codingtest.user.signIn.dtos.SignInDto;
+import com.toy.codingtest.user.signUp.dtos.SignUpDto;
 
 @Service
-public class SignInService {
+public class SignUpService {
     private final UserRepository userRepository;
 
-    public SignInService(UserRepository userRepository) {
+    public SignUpService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
 
-    public void signIn(SignInDto signInDto) {
+    public void signUp(SignUpDto signInDto) {
         UserEntity userEntityToSave = new UserEntity();
         userEntityToSave.setId(UUID.randomUUID().toString());
         userEntityToSave.setEmail(signInDto.getEmail());

@@ -1,9 +1,9 @@
-package com.toy.codingtest.user.signIn.dtos;
+package com.toy.codingtest.user.signUp.dtos;
 
 import lombok.Data;
 
 @Data
-public class SignInDto {
+public class SignUpDto {
     private String email;
     private String password;
     private String name;
