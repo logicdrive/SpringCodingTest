@@ -1,0 +1,42 @@
+데이터베이스 설정
+    H2 데이터베이스
+        실행시마다 DB가 초기화되기 때문에 테스트 용도로 적합함
+        [1] pom.xml에 추가
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <scope>runtime</scope>
+            </dependency>
+
+        [2] application.properties에 추가
+            spring.datasource.url=jdbc:h2:mem:testdb
+            spring.h2.console.enabled=true
+            spring.h2.console.path=/h2-console
+
+        [3]
+            /h2-console에 접속후에 사용
+            비밀번호는 기본적으로 없음
+
+    MySQL 데이터베이스
+        [1] pom.xml에 추가
+            <dependency>
+                <groupId>com.mysql</groupId>
+                <artifactId>mysql-connector-j</artifactId>
+                <scope>runtime</scope>
+            </dependency>
+        
+        [2] application.properties에 추가
+            spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+            # 위치 지정: jdbc:mysql://<IP>:<PORT>/<DATABASE_NAME>?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+            spring.datasource.url=jdbc:mysql://localhost:3306/coding_test_backend?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+            spring.datasource.username=root
+            spring.datasource.password=root
+
+            # 영속성 개체 접근여부 (true로 설정해야 함)
+            spring.jpa.open-in-view=true
+            # DDL 자동 생성 여부 (자동 생성을 해야 Entity 등록시 테이블 생성함)
+            spring.jpa.hibernate.ddl-auto=update 
+
+            # 생성된 쿼리문을 보여줄지에 대한 여부
+            spring.jpa.show-sql=true
+            spring.jpa.properties.hibernate.format_sql=true
