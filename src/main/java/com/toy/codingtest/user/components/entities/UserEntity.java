@@ -1,4 +1,4 @@
-package com.toy.codingtest.user.signIn.entities;
+package com.toy.codingtest.user.components.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
