@@ -1,0 +1,27 @@
+{
+    "properties": [
+        {
+            "name": "jwt.issuer",
+            "type": "java.lang.String",
+            "description": "JWT 발행자 관련 주소값"
+        },
+
+        {
+            "name": "jwt.expire-after-seconds",
+            "type": "java.lang.Long",
+            "description": "JWT 발행이후 유효기간(초)"
+        },
+
+        {
+            "name": "jwt.public.key",
+            "type": "java.lang.String",
+            "description": "RSA 공개키 파일 경로"
+        },
+
+        {
+            "name": "jwt.private.key",
+            "type": "java.lang.String",
+            "description": "RSA 개인키 파일 경로"
+        }
+    ]
+}

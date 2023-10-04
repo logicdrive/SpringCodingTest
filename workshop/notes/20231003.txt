@@ -17,6 +17,17 @@
             /h2-console에 접속후에 사용
             비밀번호는 기본적으로 없음
 
+        Spring Security 연계(https://github.com/HomoEfficio/dev-tips/blob/master/Spring%20Security%EC%99%80%20h2-console%20%ED%95%A8%EA%BB%98%20%EC%93%B0%EA%B8%B0.md)
+            예외 URL에 추가해준다.
+                .antMatchers(
+                        "/h2-console/**"
+                    )
+            
+            XFrame 관련 이슈를 해결해준다.
+                .headers(header -> header
+                    .addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN))
+                )
+
     MySQL 데이터베이스
         [1] pom.xml에 추가
             <dependency>
@@ -40,3 +51,207 @@
             # 생성된 쿼리문을 보여줄지에 대한 여부
             spring.jpa.show-sql=true
             spring.jpa.properties.hibernate.format_sql=true
+
+컨트롤러 요청 반환
+    CREATE, UPDATE 시에도 void 보다는 실제로 생성/변경된 객체를 반환시키는게 좋아 보인다.
+    DELETE 시에는 아무것도 반환하지 않는다.
+    그냥 객체보다는 ResponseEntity로 응답 번호와 객체를 함께 반환한다.
+
+컨트롤러 예외 공통처리
+    예외발생시에 기본적으로 500에러가 나오지만, 이러한 예외들을 공통으로 처리할 수 있다.
+    @ControllerAdvice, @ExceptionHandler를 활용해서 특정한 예외 흐름을 Custom Response로 치환시킬 수 있다.
+
+예외를 더 간편하게 처리
+    Optional 객체를 이용하면 값이 없을 경우 예외 발생을 시킬때 더 코드를 간편하게 만들 수 있다.
+    Repository에서는 기본적으로 Optional 객체가 반환되고, 커스텀으로 만들때에도 Optional을 활용할 수 있다.
+
+Lombok의 활용
+    Lombok은 자동으로 Getter, Setter을 생성해줄 뿐만아니라, 관련 생성자들도 자동으로 생성해준다.
+    
+    의존성 주입
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+    
+    활용
+        @RequiredArgsConstructor
+            private final 로 선언된 모든 요소들에 대한 생성자를 만들어 주기 때문에 Spring Framework와 호환이 좋다
+            @Value와 함께 사용하는 경우에는 @Value는 private만 붙여서 무시해주게 만들면 된다.
+        
+        @Getter, @Setter, @Data
+            각각 Getter과 Setter들을 만들어 주고, Data는 둘 다 만들어준다.
+            안전한 코딩을 위해서 무조건 @Data를 쓰기 보다는 상황에 따라 @Getter, @Setter 만을 사용할 상황이 있는지 고려해보는게 좋아 보인다.
+
+Swagger 활용
+    REST 관련 요청들을 볼 수 있는 페이지를 자동으로 생성해준다.
+    테스트하기에 좋은 인터페이스를 제공해주기 때문에 개발시에 반드시 추가해주는게 좋아보인다.
+
+    의존성 추가
+        <dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.5.13</version>
+		</dependency>
+
+    설정 추가
+        # swaggerdoc
+        springdoc.webjars.prefix=v0.0.1
+        springdoc.packages-to-scan=com.edu.board
+        springdoc.swagger-ui.path=/api-docs
+        springdoc.swagger-ui.tags-sorter=alpha
+        springdoc.swagger-ui.operations-sorter=alpha
+        springdoc.api-docs.path=/api-docs/json
+        springdoc.api-docs.groups.enabled=true
+        springdoc.cache.disabled=true
+        springdoc.default-consumes-media-type=application/json;charset=UTF-8
+        springdoc.default-produces-media-type=application/json;charset=UTF-8
+
+        반드시 설정해야 하는 값들
+            springdoc.packages-to-scan - 패키지를 스캔시킬 경로. 일치하지 않으면 아무것도 안뜸
+            springdoc.swagger-ui.path - 해당 Rest API 페이지에 접근 할 경로
+    
+    이 경우, /api-docs 에 접속해서 정상 작동을 확인한다.
+
+    Spring Security 연계(https://devfunny.tistory.com/692)
+        Swagger 관련 URL이 모든 곳에서 접근이 가능하도록 하기 위해서 여러 URL들을 예외처리 해줘야 한다.
+            .antMatchers(
+                "/api-docs/**",
+                "/swagger-ui/**",
+                "/swagger-ui.html"
+    
+    Swagger의 두 버전(https://velog.io/@ychxexn/Swagger-%EB%8B%A4-%EA%B0%99%EC%9D%80-%EB%86%88%EC%9D%B4-%EC%95%84%EB%8B%88%EC%97%88%EB%8B%A4.-Springfox-vs-Springdoc)
+        Swagger에는 Spring Fox Swagger와 Spring Docs Swagger이 있다.
+        Fox Swagger은 현재 개발이 2020년 쯤에 중지되었고, Docs Swagger은 꾸준히 업데이트 중이다.
+        Fox Swagger보다 Docs Swagger은 유사하기는 하지만, Docs가 사용하기 편하므로, Docs를 사용하는게 좋다.
+
+스프링 JWT 설정
+    관련 링크
+        https://www.toptal.com/spring/spring-security-tutorial
+        https://github.com/Yoh0xFF/java-spring-security-example
+
+    관련 용어들
+        Authentication - 유저명/패스워드로 사용자 인증을 하는 것
+        Authorization - 인증된 사용자에게 권한을 부여하는 것
+        Principle - 인증된 사용자을 의미함
+        Granted authority - 인증된 사용자가 가지는 권한을 의미함
+        Role - 인증된 사용자의 권한들이 속하는 그룹명을 의미함
+
+    Spring Security
+        다른 의존성과 다르게 적용시에 즉각적으로 영향이 감
+            적용시에 모든 URL에 권한이 요구되어져서 'http://localhost:8080/login'로 이동됨
+                이 로그인은 세션 기반으로 이루어지게 됨
+
+            자동으로 디폴트 유저명인 'user'와 콘솔에 디폴트 패스워드가 제공됨
+                spring.security.user.password 로 디폴트 패스워드를 변경할 수 있음
+            
+            로그아웃을 위해서 'http://localhost:8080/logout' URL이 자동으로 생성됨
+            하지만 이러한 요소들은 MVC-Session 기반의 앱에서만 유효하기 때문이 SPA-Stateless 기반의 앱을 위해서는 상당한 커스터마이징이 필요함
+        
+        아키텍처 구조
+            Spring Security Filters Chain
+                Spring Security 의존성 추가시에 즉시 추가되며, 모든 요청에 대해서 인터럽트를 수행함
+                이 필터들은 Configuration에 기반해서 해당 URL이 유효한지 확인하는 등의 행위를 수행함
+            
+            AuthenticationManager
+                AuthenticationProvider 들을 등록해서 요청에 따라서 적합한 AuthenticationProvider에 전송시킴
+            
+            AuthenticationProvider
+                특정한 요청 타입들을 받아서 처리함
+                구현 함수들
+                    authenticate - 인증을 수행함
+                    supports - 해당 인증 타입을 지원하는지의 여부를 확인함
+                
+                DaoAuthenticationProvider - JWT 인증을 위한 Provider.
+                    UserDetailsService로 부터 자세한 유저정보를 얻음
+            
+            UserDetailsService
+                일반적으로 AuthenticationProvider에서 인증을 위해서 유저 정보를 추출하는 일이 많기 때문에 이러한 것을 분리해 놓았음
+                loadUserByUsername - 유저 이름을 받아서 유저를 구분하기 위한 객체를 반환함
+            
+            UserDetails
+                UserDetailsService에서 유저 권한 정보를 저장하기 위해서 사용하는 객체
+                기존 유저 정보에서 구현하거나 새로 만들 수 있음
+
+                오버라이딩시에 주의할 사항들
+                    유저 활성화여부나 권한 여부등이 기본적으로 false로 반환되게 오버라이딩된다.
+                    이러한 함수들이 true로 반환되도록 만들어야 초반에 제대로 테스트가 가능하다.
+    
+
+        커스텀 설정을 하는법
+            커스텀 설정을 위한 설정 함수를 만듬
+                이 함수는 @EnableWebSecurity 어노테이션이 포함되어야 함
+                간편한 설정을 위해서 제공하는 WebSecurityConfigurerAdapter를 상속받아야 함(Deprecated)
+                    관련 설정 함수들
+                        configure(AuthenticationManagerBuilder auth) - AuthenticationManager을 관리하기 위한 함수
+                        configure(HttpSecurity http) - URL Public, Private여부나 권한 부여 등을 관리하기 위한 함수
+                
+                    Deprecated 해결법(https://velog.io/@pjh612/Deprecated%EB%90%9C-WebSecurityConfigurerAdapter-%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%8C%80%EC%B2%98%ED%95%98%EC%A7%80)
+                        스프링 버전 업데이트로 인해서 설정 방법이 달라짐
+                        기존과 달리 상속받지 않고, configure 함수가 filterChain 함수로 이동됨
+                
+                passwordEncoder
+                    사용하는 패스워드 로직을 설정하기 위한 함수
+                    BCryptPasswordEncoder 가 일반적으로 사용됨
+            
+            UserDetailsService를 구현 함
+                여기서 얻는 유저 정보는 AuthenticationProvider가 인증을 위해서 사용하게 됨
+                여기서 구현하는 함수에서 사용하는 UserDetails를 구현함
+
+        JWT 설정을 위한 설차
+            설정 함수에 다음과 같은 요소들을 추가해야 함
+                세션 관리가 쓸모 없으므로, 세션 매니저를 Stateless하게 만들어야 함
+                JWT 인증 실패시에 처리할 핸들러를 등록해야 함
+                JWT 인증에 사용할 필터를 기본 필터 앞에 등록해야함
+            
+            JWT 설정에 맞게 변경시키기
+                유저 정보 생성시에 Security에 등록된 함수가 사용되어져서 생성되도록 만들어야 함
+                JWT 토큰 생성시에 AuthenticationManager가 해당 유저가 유효한지를 확인하는 절차를 거쳐야함
+                    유저 정보 생성시에 Security에 등록된 함수를 사용했기 때문에 유효성을 검사할 수 있게됨
+
+                    이 객체는 @Bean으로 노출되어 있지 않기 때문에
+                        @Bean
+                        public AuthenticationManager authenticationManager(
+                            AuthenticationConfiguration authenticationConfiguration) throws Exception {
+                            return authenticationConfiguration.getAuthenticationManager();
+                        }
+                            와 같은 @Bean 형태로 노출시켜야 사용할 수 있음
+            
+            유저 정보 생성하기
+                유저 패스워드는 PasswordEncoder를 Bean객체로 받아서 생성시켜야함
+        
+        JWT 생성시키기
+            의존성 주입
+        		<dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+                </dependency>
+            
+            JwtEncoder 클래스를 활용해서 생성할 수 있음
+            단, 이 클래스들은 @Bean 형태로 Security에서 노출되도록 만듬
+
+            // Used by JwtAuthenticationProvider to generate JWT tokens
+            @Bean
+            public JwtEncoder jwtEncoder() {
+                var jwk = new RSAKey.Builder(this.rsaPublicKey).privateKey(this.rsaPrivateKey).build();
+                var jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
+                return new NimbusJwtEncoder(jwks);
+            }
+
+            // Used by JwtAuthenticationProvider to decode and validate JWT tokens
+            @Bean
+            public JwtDecoder jwtDecoder() {
+                return NimbusJwtDecoder.withPublicKey(this.rsaPublicKey).build();
+            }
+
+
+application.properties 값을 소스 코드상에서 사용
+    참조 링크
+        https://tecoble.techcourse.co.kr/post/2020-09-29-spring-properties-binding/
+
+    @Value("${external.record-year}")
+        '${}' 없이 단순하게 경로만 적을 경우, 속성 변환(String > Long 등)이 제대로 이루어지지 않아서 에러가 발생할 수 있음
+        기본적으로 '${}'를 포함시키는게 좋음
+            속성 경로, 파일 경로, 시스템 변수명등을 적을 수 있음
+            ','로 나열된 배열들을 받을 수도 있음

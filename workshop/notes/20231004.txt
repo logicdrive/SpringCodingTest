@@ -1,0 +1,52 @@
+커스텀 속성 값 설정하기
+    커스텀 속성 값 설정시에 resources/META-INF에 관련 속성들에 대한 설명을 넣어서 경고 문구를 사라지게 만들 수 있음
+    이후 @Value 등으로 참조가 가능함
+
+record 키워드 활용
+    유효 버전
+        자바 버전이 14 이상이여야 함
+        pom.xml 에서 java.version으로 확인할 수 있음
+            더 낮은 자바버전인 경우,
+                @Getter
+                @RequiredArgsConstructor
+                    어노테이션들을 사용해서 비슷한 효과를 만들 수 있음
+
+    필요성(https://www.baeldung.com/java-record-keyword)
+        일반적으로 Dto, 쿼리 결과등을 반환할 경우 결과가 한번만 초기화되고 그다음부터는 참조만 가능해야함
+
+        이를 위해서,
+            1. 각 필드는 private final로 선언되어야 함
+            2. getter 메서드가 각각의 필드에 있어야 함
+            3. 각 필드를 1회 초기화하기 위한 public 메서드가 있어야힘
+            4. 비교를 위한 함수 equals, 해시 값을 위한 함수 hashcode, toString() 함수가 있어야 함
+        
+        이것을 전부 구현하려면 노가다가 심하기 때문에 record를 사용할 수 있음
+    
+    예시
+        public record Person (String name, String address) {}
+
+OpenJDK와 Java의 버전은 완전히 동일한 버전으로 취급할 수 있음
+
+@Builder 활용(https://velog.io/@park2348190/Lombok-Builder%EC%9D%98-%EB%8F%99%EC%9E%91-%EC%9B%90%EB%A6%AC)
+    Lombok에서 활용가능하며, 해당 클래스에 빌더 패턴을 추가시킨다.
+    이미 생성자가 있을 경우, 해당 생성자를 활용하기 때문에 오류가 발생할 수 있다.
+    private final과 함께 쓰기에는 적합하지 않다.
+
+RSA 키 생성하기(Windows)(https://www.suse.com/support/kb/doc/?id=000018152)
+    RSAPublicKey/RSAPrivateKey에 적합한 형식(PEM-X509)으로 생성해야 예외 없이 잘 작동함
+
+    [1] GitBash 열기
+    [2] openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout rsa.private.key -out rsa.public.key
+
+@Entity에 @Builder 생성시키기
+    @Entity는 디폴트 생성자가 필오하지만, @Builder가 생성자를 따로 만들기때문에 예외가 발생함
+    결국, @Entity에 @Builder를 접목시키려면 @NoArgsConstructor, @AllArgsConstructor로 생성자들을 전부 어노테이션해야함
+
+    예시)
+        @Data
+        @Builder
+        @AllArgsConstructor
+        @NoArgsConstructor
+        @Entity
+        @Table(name = "app_user")
+        public class UserEntity {

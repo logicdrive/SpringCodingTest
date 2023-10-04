@@ -1,4 +1,4 @@
-package com.toy.codingtest.user.signIn.exceptions;
+package com.toy.codingtest.user.components.exceptions;
 
 import org.springframework.http.HttpStatus;
 
@@ -13,7 +13,7 @@ public class UserNotFoundException extends CustomException {
             HttpStatus.BAD_REQUEST,
             "UserNotFoundException",
             "해당하는 정보의 사용자를 찾을 수 없습니다.\n" +
-            "유효한 이메일, 비밀번호인지 확인하거나 계정이 없을 경우, 회원가입을 해주세요."
+            "유효한 이메일, 비밀번호인지 확인하거나 계정이 없을 경우 회원가입을 해주세요."
         );
     }
 }

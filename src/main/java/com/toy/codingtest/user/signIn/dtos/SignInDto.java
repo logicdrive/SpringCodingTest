@@ -1,9 +1,11 @@
 package com.toy.codingtest.user.signIn.dtos;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@Data
+@Getter
+@RequiredArgsConstructor
 public class SignInDto {
-    private String email;
-    private String password;
+    private final String email;
+    private final String password;
 }
