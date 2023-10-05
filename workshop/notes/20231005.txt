@@ -1,0 +1,31 @@
+텍스트와 이미지가 혼재된 게시글 내용을 저장하기
+    관련 링크
+        https://www.inflearn.com/questions/816775/%EC%84%9C%EB%B2%84%EC%97%90-%EC%9D%B4%EB%AF%B8%EC%A7%80%EC%99%80-%ED%85%8D%EC%8A%A4%ED%8A%B8%EA%B0%80-%ED%98%BC%EC%9E%AC%EB%90%98%EC%96%B4-%EC%9E%88%EB%8A%94-%EA%B2%8C%EC%8B%9C%EA%B8%80-%EB%82%B4%EC%9A%A9%EC%9D%84-%EC%A0%80%EC%9E%A5%ED%95%98%EA%B3%A0-%EC%8B%B6%EC%8A%B5%EB%8B%88%EB%8B%A4
+        https://m.blog.naver.com/rlasksdud53/220595010315
+
+    이미지나 멀티미디어들을 따로 업로드 버튼을 클릭해서 경로값을 얻어냄
+        이미지인 경우,
+            1. Ajax Base64등으로 이미지를 서버로 업로드
+            2. 서버(CDN)이 저장하고, 경로를 반환함
+            3. <img src="반환값"/> 으로 엘리먼트를 생성해줌
+
+    나머지 부분은 전부 텍스트이므로, DB에 저장해주면됨
+        일반적은 CHAR 자료형은 255자가 최대이므로, 이보다는 더 많이 저장할 수 있는 CLOB/BLOB등의 타입이 선호됨
+    
+        JPA와 함께 연계하기
+            관련 링크
+                https://velog.io/@codemcd/JPA-%EC%97%94%ED%8B%B0%ED%8B%B0-%EB%A7%A4%ED%95%91Entity-Mapping
+
+            @Lob
+                데이터 베이스에서 VARCHAR 보다 더 큰 데이터를 담고 싶을때 사용함
+                매핑하는 필드에 따라 DB의 BLOB, CLOB에 자동으로 매핑됨
+                    문자열인 경우(String, char[], java.sql.CLOB) -> CLOB
+                    그외인 경우(byte[], java.sql.BLOB) -> BLOB
+
+테이블 정보 출력하기
+    H2 콘솔 : show columns from [테이블명];
+    다른 콘솔 : describe [테이블명];
+
+JPA 생성 테이블 칼럼 순서 문제(https://box0830.tistory.com/403#:~:text=%EC%9B%90%ED%95%98%EB%8A%94%20%EC%BB%AC%EB%9F%BC%20%EC%88%9C%EC%84%9C%EB%8A%94%20%5B%20id,name%20%2D%3E%20age%20%5D%20%EC%9E%85%EB%8B%88%EB%8B%A4.&text=%ED%95%98%EC%A7%80%EB%A7%8C%20%EC%8B%A4%EC%A0%9C%EB%A1%9C%20%EC%83%9D%EC%84%B1%EB%90%9C%20%EC%BB%AC%EB%9F%BC,%EC%A0%95%EB%A0%AC%EB%90%9C%20%EA%B2%83%EC%9D%B4%20%ED%99%95%EC%9D%B8%EB%90%A9%EB%8B%88%EB%8B%A4.)
+    Hibernate 버전과 관련된 문제로, 단순하게 어노테이션을 추가해서 해결할 수는 없음
+    내가 직접 DDL 관련 *.sql을 작성하면 해결 할 수 있지만 굳이 그렇게까지 해야하는가 싶음
