@@ -3,13 +3,12 @@ package com.toy.codingtest.components.security;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -20,15 +19,17 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
+import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 
-import lombok.RequiredArgsConstructor;
 
 @EnableWebSecurity
 @Configuration
@@ -84,19 +85,15 @@ public class SecurityConfig {
 
             // JWT 인증 실패시에 실패 메세지를 보내기 위해서
             .exceptionHandling(handle -> handle
-                .authenticationEntryPoint((request, response, ex) -> {
-                    response.sendError(
-                        HttpServletResponse.SC_UNAUTHORIZED,
-                        ex.getMessage()
-                    );
-                })
-            );
+                .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+                .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
+            )
             
-            // TODO : JWT 인증을 위한 토큰 필터를 기본 인증 필터 앞에 추가시키기 위해서
-            // .addFilterBefore(
-            //     jwtTokenFilter,
-            //     UsernamePasswordAuthenticationFilter.class
-            // );
+            // JWT 인증을 자동으로 지원해주는 기능을 추가시키기 위해서
+            .httpBasic(Customizer.withDefaults())
+            .oauth2ResourceServer(configurer ->
+                configurer.jwt(jwtConfigurer ->
+                    jwtConfigurer.jwtAuthenticationConverter(this.jwtAuthenticationConverter())));
  
         return http.build();
     }
@@ -126,5 +123,17 @@ public class SecurityConfig {
     @Bean
     public JwtDecoder jwtDecoder() {
         return NimbusJwtDecoder.withPublicKey(this.rsaPublicKey).build();
+    }
+
+    // JWT에서 권한을 추출하는 기능을 JWT 인증 함수에 커스텀으로 추가시키기 위해서
+    @Bean
+    public JwtAuthenticationConverter jwtAuthenticationConverter() {
+      JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
+      jwtGrantedAuthoritiesConverter.setAuthoritiesClaimName("roles");
+      jwtGrantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
+  
+      JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+      jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
+      return jwtAuthenticationConverter;
     }
 }

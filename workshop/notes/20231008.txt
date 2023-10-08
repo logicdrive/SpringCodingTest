@@ -1,0 +1,11 @@
+Jwt 객체 얻기
+    spring-security-oauth2-resource-server로 OAuth2 인증 서버를 추가한 경우, 
+        SecurityContextHolder.getContext().getAuthentication().getPrincipal()로 객체를 얻을 시,
+        org.springframework.security.oauth2.jwt.Jwt 객체가 반환되게 됨
+    
+    이 객체는 로그인시에 전송한 Jwt의 내용을 그대로 반환받을 수 있기에, 유저 정보 획득시에 이를 활용할 수 있게됨
+        이 내용을 파싱해서 JwtDto로 저장해두면 나중에 사용하기 편리해보임
+
+Jwt 내용
+    .subject(): 유저를 구분하기 위한 구분자를 보통 넣음(이메일 등)
+    .claim(): Map과 유사하게 동작하며, 그 유저에 대한 부가적인 내용을 넣음(닉네임, 권한등)
