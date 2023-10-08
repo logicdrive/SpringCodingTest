@@ -56,6 +56,6 @@ public class ProblemEntity {
 
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
+    @JoinColumn(name = "creatorId", nullable = false)
+    private UserEntity creator;
 }

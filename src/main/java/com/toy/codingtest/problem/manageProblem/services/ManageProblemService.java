@@ -27,7 +27,7 @@ public class ManageProblemService {
                 .outputExplain(createProblemDto.getOutputExplain())
                 .note(createProblemDto.getNote())
 
-                .user(this.jwtTokenService.userEntity())
+                .creator(this.jwtTokenService.userEntity())
                 .build()
         );
     }
