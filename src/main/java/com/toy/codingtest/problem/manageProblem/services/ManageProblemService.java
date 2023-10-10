@@ -1,5 +1,7 @@
 package com.toy.codingtest.problem.manageProblem.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.toy.codingtest.components.security.JwtTokenService;
@@ -30,5 +32,9 @@ public class ManageProblemService {
                 .creator(this.jwtTokenService.userEntity())
                 .build()
         );
+    }
+
+    public List<ProblemEntity> findAll() {
+        return this.problemRepository.findAll();
     }
 }
