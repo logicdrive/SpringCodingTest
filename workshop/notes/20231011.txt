@@ -36,3 +36,11 @@ Dto 객체 개선
 
     reqDto는 자동으로 전달되므로, @Getter, @RequiredArgsConstructor 어노테이션만 제공하면됨
     resDto는 @Getter 및 수동으로 생성자를 만들어줌
+
+접근 허용 패턴에 Regex 사용하기
+    antMatchers() 대신에 regexMatchers()를 사용해서, 정규식을 이용해서 더 복잡한 경로에 대한 허용 룰을 적용할 수 있음
+
+    예시
+        .regexMatchers(HttpMethod.GET, "^\\/problems\\/[0-9]+$").permitAll()
+            '/'는 '\\/'로 파싱해줘야 함에 유의함
+            '^'로 시작해서 '$'로 끝나도록 정규식을 static하게 만드는게 좋음

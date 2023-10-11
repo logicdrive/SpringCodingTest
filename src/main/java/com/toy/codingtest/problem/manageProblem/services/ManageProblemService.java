@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.toy.codingtest.components.security.JwtTokenService;
 import com.toy.codingtest.problem.components.entities.ProblemEntity;
+import com.toy.codingtest.problem.components.exceptions.ProblemNotFoundException;
 import com.toy.codingtest.problem.components.repositories.ProblemRepository;
 import com.toy.codingtest.problem.manageProblem.reqDtos.CreateProblemReqDto;
 import com.toy.codingtest.problem.manageProblem.reqDtos.FindAllProblemReqDto;
@@ -45,5 +46,10 @@ public class ManageProblemService {
                 Sort.by(Sort.Direction.ASC, "id")
             )
         ).toList();
+    }
+
+    public ProblemEntity findOne(Long id) {
+        return this.problemRepository.findById(id)
+            .orElseThrow(() -> new ProblemNotFoundException());
     }
 }
