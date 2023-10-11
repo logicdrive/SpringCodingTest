@@ -1,0 +1,24 @@
+JPA 페이지네이션 구현
+    Repository 구현체에 PageRequest 객체를 전달함으로써 DB에 독립적이게 페이지 조회가 가능해짐
+    PageRequest 객체를 전달할 경우 Page<T> 객체가 반환됨
+        Page<T> 객체에는 map 함수가 존재하며, 이러한 함수들로 추가적인 변환이 가능함
+
+    예시
+        PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.ASC, "id"));
+            pageNumber - 페이지를 나누기 위해서. 0부터 시작함
+            pageSize - 각 페이제에서 표시되는 원소들의 총 개수를 전달하기 위해서
+            Sort.by - 특정 원소를 기준으로 정렬되어서 반환시킬 수 있음
+
+컨트롤러에서 파라미터 얻기
+    컨트롤러의 각 메소드의 변수 앞에 어노테이션을 추가시켜서 값을 얻을 수 있음
+        @RequestBody - HTTP BODY에 전달된 JSON 형태의 데이터를 파싱하고, 받기 위해서
+        @PathVariable - URL에 전달된 데이터 값을 파싱하고, 받기 위해서
+        @RequestParam - URL의 ? 뒤에 전달되는 쿼리 값을 파싱하기 위해서
+    
+    예시: @RequestParam 활용하기
+        @GetMapping("/add")
+        public ResponseEntity<Integer> add(@RequestParam("num1") int num1, @RequestParam("num2") int num2)
+            RequestParam 어노테이션에 받을 변수이름을 넣어서 그 값을 어노테이션된 파라미터에 저장시킴
+        
+        혹은 하나의 전달 객체(Dto)를 선언해서 간편하게 결과값을 받을 수 있음
+        public ResponseEntity<Integer> add(@RequestParam NumsDto numsDto) 
