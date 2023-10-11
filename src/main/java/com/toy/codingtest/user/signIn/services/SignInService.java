@@ -3,7 +3,7 @@ package com.toy.codingtest.user.signIn.services;
 import org.springframework.stereotype.Service;
 
 import com.toy.codingtest.components.security.JwtTokenService;
-import com.toy.codingtest.user.signIn.dtos.SignInDto;
+import com.toy.codingtest.user.signIn.reqDtos.SignInReqDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 public class SignInService {
     private final JwtTokenService jwtTokenService;
 
-    public String signIn(SignInDto signInDto) {
-        return this.jwtTokenService.tokenValue(signInDto);
+    public String signIn(SignInReqDto signInReqDto) {
+        return this.jwtTokenService.tokenValue(signInReqDto);
     }
 }

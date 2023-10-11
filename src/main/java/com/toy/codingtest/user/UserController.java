@@ -10,13 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 
-import com.toy.codingtest.user.components.entities.UserEntity;
-
 import com.toy.codingtest.user.signUp.services.SignUpService;
-import com.toy.codingtest.user.signUp.dtos.SignUpDto;
-import com.toy.codingtest.user.signUp.responses.SignUpResponse;
+import com.toy.codingtest.user.signUp.reqDtos.SignUpReqDto;
+import com.toy.codingtest.user.signUp.resDtos.SignUpResDto;
+import com.toy.codingtest.user.signIn.reqDtos.SignInReqDto;
 import com.toy.codingtest.user.signIn.services.SignInService;
-import com.toy.codingtest.user.signIn.dtos.SignInDto;
 
 
 @RestController
@@ -27,20 +25,16 @@ public class UserController {
     private final SignInService signInService;
 
     @PostMapping
-    public ResponseEntity<SignUpResponse> signUp(@RequestBody SignUpDto signUpDto) {
-        UserEntity createdUserEntity = this.signUpService.signUp(signUpDto);
+    public ResponseEntity<SignUpResDto> signUp(@RequestBody SignUpReqDto signUpReqDto) {
         return ResponseEntity.ok(
-            SignUpResponse.builder()
-                .email(createdUserEntity.getEmail())
-                .name(createdUserEntity.getName())
-                .build()
+            new SignUpResDto(this.signUpService.signUp(signUpReqDto))
         );
     }
 
     @GetMapping
-    public ResponseEntity<String> signIn(@RequestBody SignInDto signInDto) {
+    public ResponseEntity<String> signIn(@RequestBody SignInReqDto signInReqDto) {
         return ResponseEntity.ok()
-          .header(HttpHeaders.AUTHORIZATION, this.signInService.signIn(signInDto))
+          .header(HttpHeaders.AUTHORIZATION, this.signInService.signIn(signInReqDto))
           .build();
     }
 }

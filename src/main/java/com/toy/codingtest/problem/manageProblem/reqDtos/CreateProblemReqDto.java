@@ -1,11 +1,11 @@
-package com.toy.codingtest.problem.manageProblem.dtos;
+package com.toy.codingtest.problem.manageProblem.reqDtos;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class CreateProblemDto {
+public class CreateProblemReqDto {
     private final String title;
     private final int timeLimitSecond;
     private final int memoryLimitMb;

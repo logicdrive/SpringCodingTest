@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 import com.toy.codingtest.user.components.entities.UserEntity;
 import com.toy.codingtest.user.manageUser.services.ManageUserService;
-import com.toy.codingtest.user.signIn.dtos.SignInDto;
+import com.toy.codingtest.user.signIn.reqDtos.SignInReqDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,13 +32,13 @@ public class JwtTokenService {
     private @Value("${jwt.issuer}") String jwtConfigIssuer;
     private @Value("${jwt.expire-after-seconds}") Long jwtConfigExpireAfterSeconds;
 
-    public String tokenValue(SignInDto signInDto) {
+    public String tokenValue(SignInReqDto signInReqDto) {
         try {
             // Spring Security를 활용한 인증을 수행하기 위해서
             // 인증 실패시 자동으로 예외가 발생됨
             Authentication authentication =
                 this.authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(signInDto.getEmail(), signInDto.getPassword()));
+                    new UsernamePasswordAuthenticationToken(signInReqDto.getEmail(), signInReqDto.getPassword()));
             
             ServiceUserDetail serviceUserDetail = ((ServiceUserDetail) authentication.getPrincipal());
             JwtEncoderParameters jwtParameters = JwtEncoderParameters.from(
@@ -70,12 +70,8 @@ public class JwtTokenService {
             Object principalObject = authentication.getPrincipal();
             if(!(principalObject instanceof Jwt)) throw new Exception("Jwt 변환에 실패했습니다.");
 
-            Jwt jwt = (Jwt)principalObject;
-            return JwtDto.builder()
-                .email(jwt.getSubject())
-                .name(jwt.getClaim("name"))
-                .build();
-
+            return new JwtDto((Jwt)principalObject);
+            
         } catch(Exception ex) {
             throw new JwtTokenProcessException(ex.getMessage());
         }

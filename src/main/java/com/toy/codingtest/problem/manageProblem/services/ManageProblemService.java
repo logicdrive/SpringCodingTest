@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import com.toy.codingtest.components.security.JwtTokenService;
 import com.toy.codingtest.problem.components.entities.ProblemEntity;
 import com.toy.codingtest.problem.components.repositories.ProblemRepository;
-import com.toy.codingtest.problem.manageProblem.dtos.CreateProblemDto;
-import com.toy.codingtest.problem.manageProblem.dtos.FindAllProblemDto;
+import com.toy.codingtest.problem.manageProblem.reqDtos.CreateProblemReqDto;
+import com.toy.codingtest.problem.manageProblem.reqDtos.FindAllProblemReqDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,28 +20,28 @@ public class ManageProblemService {
     private final ProblemRepository problemRepository;
     private final JwtTokenService jwtTokenService;
 
-    public ProblemEntity create(CreateProblemDto createProblemDto) {
-        return problemRepository.save(
+    public ProblemEntity create(CreateProblemReqDto createProblemReqDto) {
+        return this.problemRepository.save(
             ProblemEntity.builder()
-                .title(createProblemDto.getTitle())
-                .timeLimitSecond(createProblemDto.getTimeLimitSecond())
-                .memoryLimitMb(createProblemDto.getMemoryLimitMb())
+                .title(createProblemReqDto.getTitle())
+                .timeLimitSecond(createProblemReqDto.getTimeLimitSecond())
+                .memoryLimitMb(createProblemReqDto.getMemoryLimitMb())
 
-                .problemExplain(createProblemDto.getProblemExplain())
-                .inputExplain(createProblemDto.getInputExplain())
-                .outputExplain(createProblemDto.getOutputExplain())
-                .note(createProblemDto.getNote())
+                .problemExplain(createProblemReqDto.getProblemExplain())
+                .inputExplain(createProblemReqDto.getInputExplain())
+                .outputExplain(createProblemReqDto.getOutputExplain())
+                .note(createProblemReqDto.getNote())
 
                 .creator(this.jwtTokenService.userEntity())
                 .build()
         );
     }
 
-    public List<ProblemEntity> findAll(FindAllProblemDto findAllProblemDto) {
+    public List<ProblemEntity> findAll(FindAllProblemReqDto findAllProblemReqDto) {
         return this.problemRepository.findAll(
             PageRequest.of(
-                findAllProblemDto.getPageNumber()-1,
-                findAllProblemDto.getPageSize(), 
+                findAllProblemReqDto.getPageNumber()-1,
+                findAllProblemReqDto.getPageSize(), 
                 Sort.by(Sort.Direction.ASC, "id")
             )
         ).toList();
