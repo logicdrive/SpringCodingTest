@@ -2,12 +2,15 @@ package com.toy.codingtest.problem.manageProblem.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.toy.codingtest.components.security.JwtTokenService;
 import com.toy.codingtest.problem.components.entities.ProblemEntity;
 import com.toy.codingtest.problem.components.repositories.ProblemRepository;
 import com.toy.codingtest.problem.manageProblem.dtos.CreateProblemDto;
+import com.toy.codingtest.problem.manageProblem.dtos.FindAllProblemDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,7 +37,13 @@ public class ManageProblemService {
         );
     }
 
-    public List<ProblemEntity> findAll() {
-        return this.problemRepository.findAll();
+    public List<ProblemEntity> findAll(FindAllProblemDto findAllProblemDto) {
+        return this.problemRepository.findAll(
+            PageRequest.of(
+                findAllProblemDto.getPageNumber()-1,
+                findAllProblemDto.getPageSize(), 
+                Sort.by(Sort.Direction.ASC, "id")
+            )
+        ).toList();
     }
 }

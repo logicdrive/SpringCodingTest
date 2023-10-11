@@ -2,6 +2,7 @@ JPA 페이지네이션 구현
     Repository 구현체에 PageRequest 객체를 전달함으로써 DB에 독립적이게 페이지 조회가 가능해짐
     PageRequest 객체를 전달할 경우 Page<T> 객체가 반환됨
         Page<T> 객체에는 map 함수가 존재하며, 이러한 함수들로 추가적인 변환이 가능함
+        Page<T> 객체에는 toList() 함수가 있어서, 바로 변환이 가능함
 
     예시
         PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.ASC, "id"));
@@ -20,5 +21,11 @@ JPA 페이지네이션 구현
         public ResponseEntity<Integer> add(@RequestParam("num1") int num1, @RequestParam("num2") int num2)
             RequestParam 어노테이션에 받을 변수이름을 넣어서 그 값을 어노테이션된 파라미터에 저장시킴
         
-        혹은 하나의 전달 객체(Dto)를 선언해서 간편하게 결과값을 받을 수 있음
-        public ResponseEntity<Integer> add(@RequestParam NumsDto numsDto) 
+    @RequestParam을 Dto에서 활용하기(https://e-room.tistory.com/169)
+        어노테이션을 사용하지 않거나, @ModelAttribute 어노테이션을 사용해서 Dto로 사용할 객체를 전달해주기만 하면 된다.
+            되도록이면 어노테이션을 사용하는 편이 좋다.
+
+        디폴트 값 처리하기
+            Dto 초기화시에 @Builder를 사용하지 않기때문에 @Builder.Default 어노테이션을 활용할 수 없다.
+            기본적으로 AllArgesConstructor을 활용하기 때문에 여기에 디폴트 값을 적용하거나,
+            @Data 형태로 선언뒤, 디폴트 값을 기본값으로 넣어 줄 수 있다.

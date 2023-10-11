@@ -4,6 +4,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.toy.codingtest.problem.components.entities.ProblemEntity;
 import com.toy.codingtest.problem.manageProblem.dtos.CreateProblemDto;
+import com.toy.codingtest.problem.manageProblem.dtos.FindAllProblemDto;
 import com.toy.codingtest.problem.manageProblem.responses.BriefProblemResponse;
 import com.toy.codingtest.problem.manageProblem.responses.CreateProblemResponse;
 import com.toy.codingtest.problem.manageProblem.responses.FindAllProblemResponse;
@@ -37,11 +39,11 @@ public class ProblemController {
     }
 
     @GetMapping
-    public ResponseEntity<FindAllProblemResponse> findAll() {
+    public ResponseEntity<FindAllProblemResponse> findAll(@ModelAttribute FindAllProblemDto findAllProblemDto) {
         return ResponseEntity.ok(
             FindAllProblemResponse.builder()
                 .problems(
-                    this.manageProblemService.findAll()
+                    this.manageProblemService.findAll(findAllProblemDto)
                         .stream().map(problem -> BriefProblemResponse.builder()
                             .id(problem.getId())
                             .title(problem.getTitle())
