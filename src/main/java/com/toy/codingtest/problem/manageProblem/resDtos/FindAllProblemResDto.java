@@ -9,7 +9,7 @@ import lombok.Getter;
 
 @Getter
 public class FindAllProblemResDto {
-    private List<BriefProblemResDto> problems;
+    private final List<BriefProblemResDto> problems;
 
     public FindAllProblemResDto(List<ProblemEntity> problems) {
         this.problems = problems.stream()

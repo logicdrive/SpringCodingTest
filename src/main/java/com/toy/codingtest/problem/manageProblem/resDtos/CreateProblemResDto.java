@@ -6,8 +6,8 @@ import lombok.Getter;
 
 @Getter
 public class CreateProblemResDto {
-    private Long id;
-    private String title;
+    private final Long id;
+    private final String title;
 
     public CreateProblemResDto(ProblemEntity problem) {
         this.id = problem.getId();
