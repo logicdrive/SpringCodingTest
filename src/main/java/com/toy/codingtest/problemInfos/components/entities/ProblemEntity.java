@@ -1,4 +1,4 @@
-package com.toy.codingtest.problem.components.entities;
+package com.toy.codingtest.problemInfos.components.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -1,4 +1,4 @@
-package com.toy.codingtest.user;
+package com.toy.codingtest.user.controllers;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;

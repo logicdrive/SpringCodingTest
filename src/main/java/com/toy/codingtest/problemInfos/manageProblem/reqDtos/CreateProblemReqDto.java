@@ -1,4 +1,4 @@
-package com.toy.codingtest.problem.manageProblem.reqDtos;
+package com.toy.codingtest.problemInfos.manageProblem.reqDtos;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.toy.codingtest.problem.manageProblem.services;
+package com.toy.codingtest.problemInfos.manageProblem.services;
 
 import java.util.List;
 
@@ -7,11 +7,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.toy.codingtest.components.security.JwtTokenService;
-import com.toy.codingtest.problem.components.entities.ProblemEntity;
-import com.toy.codingtest.problem.components.exceptions.ProblemNotFoundException;
-import com.toy.codingtest.problem.components.repositories.ProblemRepository;
-import com.toy.codingtest.problem.manageProblem.reqDtos.CreateProblemReqDto;
-import com.toy.codingtest.problem.manageProblem.reqDtos.FindAllProblemReqDto;
+import com.toy.codingtest.problemInfos.components.entities.ProblemEntity;
+import com.toy.codingtest.problemInfos.components.exceptions.ProblemNotFoundException;
+import com.toy.codingtest.problemInfos.components.repositories.ProblemRepository;
+import com.toy.codingtest.problemInfos.manageProblem.reqDtos.CreateProblemReqDto;
+import com.toy.codingtest.problemInfos.manageProblem.reqDtos.FindAllProblemReqDto;
 
 import lombok.RequiredArgsConstructor;
 

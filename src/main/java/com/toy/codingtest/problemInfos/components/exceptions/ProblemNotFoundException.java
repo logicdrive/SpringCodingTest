@@ -1,4 +1,4 @@
-package com.toy.codingtest.problem.components.exceptions;
+package com.toy.codingtest.problemInfos.components.exceptions;
 
 import org.springframework.http.HttpStatus;
 
