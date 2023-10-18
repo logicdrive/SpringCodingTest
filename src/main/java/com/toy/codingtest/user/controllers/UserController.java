@@ -25,16 +25,16 @@ public class UserController {
     private final SignInService signInService;
 
     @PostMapping
-    public ResponseEntity<SignUpResDto> signUp(@RequestBody SignUpReqDto signUpReqDto) {
+    public ResponseEntity<SignUpResDto> signUp(@RequestBody SignUpReqDto signUpReqDtoToCreate) {
         return ResponseEntity.ok(
-            new SignUpResDto(this.signUpService.signUp(signUpReqDto))
+            new SignUpResDto(this.signUpService.signUp(signUpReqDtoToCreate))
         );
     }
 
     @GetMapping
-    public ResponseEntity<String> signIn(@RequestBody SignInReqDto signInReqDto) {
+    public ResponseEntity<String> signIn(@RequestBody SignInReqDto signInReqDtoForToken) {
         return ResponseEntity.ok()
-          .header(HttpHeaders.AUTHORIZATION, this.signInService.signIn(signInReqDto))
+          .header(HttpHeaders.AUTHORIZATION, this.signInService.tokenBySignIn(signInReqDtoForToken))
           .build();
     }
 }
