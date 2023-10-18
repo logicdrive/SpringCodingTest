@@ -25,9 +25,9 @@ public class UserController {
     private final SignInService signInService;
 
     @PostMapping
-    public ResponseEntity<SignUpResDto> signUp(@RequestBody SignUpReqDto signUpReqDtoToCreate) {
+    public ResponseEntity<SignUpResDto> signUp(@RequestBody SignUpReqDto signUpReqDto) {
         return ResponseEntity.ok(
-            new SignUpResDto(this.signUpService.signUp(signUpReqDtoToCreate))
+            new SignUpResDto(this.signUpService.signUp(signUpReqDto))
         );
     }
 

@@ -18,13 +18,13 @@ public class SignUpService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder; // Spring Security에서 사용하는 PasswordEncoder를 활용하기 위해서
 
-    public UserEntity signUp(SignUpReqDto signUpReqDtoToCreate) {
+    public UserEntity signUp(SignUpReqDto signUpReqDto) {
         return this.userRepository.save(
             UserEntity.builder()
                 .id(UUID.randomUUID().toString())
-                .email(signUpReqDtoToCreate.getEmail())
-                .password(this.passwordEncoder.encode(signUpReqDtoToCreate.getPassword()))
-                .name(signUpReqDtoToCreate.getName())
+                .email(signUpReqDto.getEmail())
+                .password(this.passwordEncoder.encode(signUpReqDto.getPassword()))
+                .name(signUpReqDto.getName())
                 .build()
         );
     }

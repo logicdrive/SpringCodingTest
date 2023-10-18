@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 public class SignInService {
     private final JwtTokenService jwtTokenService;
 
-    public String tokenBySignIn(SignInReqDto signInReqDtoForToken) {
-        return this.jwtTokenService.tokenValue(signInReqDtoForToken);
+    public String tokenBySignIn(SignInReqDto signInReqDto) {
+        return this.jwtTokenService.tokenValue(signInReqDto);
     }
 }
