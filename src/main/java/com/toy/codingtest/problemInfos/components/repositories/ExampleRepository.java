@@ -8,5 +8,5 @@ import com.toy.codingtest.problemInfos.components.entities.ExampleEntity;
 import com.toy.codingtest.problemInfos.components.entities.ProblemEntity;
 
 public interface ExampleRepository extends JpaRepository<ExampleEntity, Long> {
-    List<ExampleEntity> findAllByProblem(ProblemEntity problem);
+    List<ExampleEntity> findAllByProblemOrderByPriorityAsc(ProblemEntity problem);
 }

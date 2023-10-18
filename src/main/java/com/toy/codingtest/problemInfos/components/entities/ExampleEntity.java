@@ -35,6 +35,9 @@ public class ExampleEntity {
     @Lob
     private String outputValue;
 
+    @Column(nullable = false)
+    private int priority;
+
 
     @ManyToOne
     @JoinColumn(name = "problemId", nullable = false)

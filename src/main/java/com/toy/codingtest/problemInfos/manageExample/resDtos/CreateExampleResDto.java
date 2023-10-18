@@ -10,11 +10,13 @@ public class CreateExampleResDto {
     private final String inputValue;
     private final String outputValue;
     private final Long problemId;
+    private final int priority;
 
     public CreateExampleResDto(ExampleEntity example) {
         this.id = example.getId();
         this.inputValue = example.getInputValue();
         this.outputValue = example.getOutputValue();
         this.problemId = example.getProblem().getId();
+        this.priority = example.getPriority();
     }
 }

@@ -21,22 +21,28 @@ public class ManageExampleService {
     private final ProblemRepository problemRepository;
 
     public ExampleEntity create(CreateExampleReqDto createExampleReqDto) {
-        ProblemEntity problemForExample = problemRepository.findById(createExampleReqDto.getProblemId())
+        ProblemEntity problemForQuery = problemRepository.findById(createExampleReqDto.getProblemId())
                                     .orElseThrow(() -> new ProblemNotFoundException());
+        
+        int priorityForExample = 1;
+        List<ExampleEntity> examplesForPriority = exampleRepository.findAllByProblemOrderByPriorityAsc(problemForQuery);
+        if(examplesForPriority.size() > 0)
+            priorityForExample = examplesForPriority.get(examplesForPriority.size()-1).getPriority()+1;
 
         return this.exampleRepository.save(
             ExampleEntity.builder()
                 .inputValue(createExampleReqDto.getInputValue())
                 .outputValue(createExampleReqDto.getOutputValue())
-                .problem(problemForExample)
+                .problem(problemForQuery)
+                .priority(priorityForExample)
                 .build()
         );
     }
 
     public List<ExampleEntity> findAll(FindAllExampleReqDto findAllExampleReqDto) {
-        ProblemEntity problemForExample = problemRepository.findById(findAllExampleReqDto.getProblemId())
+        ProblemEntity problemForQuery = problemRepository.findById(findAllExampleReqDto.getProblemId())
                                     .orElseThrow(() -> new ProblemNotFoundException());
 
-        return this.exampleRepository.findAllByProblem(problemForExample);
+        return this.exampleRepository.findAllByProblemOrderByPriorityAsc(problemForQuery);
     }
 }
