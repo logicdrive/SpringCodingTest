@@ -1,0 +1,10 @@
+Repository에서의 정렬
+    기본적으로 Repository 함수명에서 '[...]OrderBy[...][Asc/Desc]'와 같은 형태로 정렬을 요청할 수 있음
+        findAllByProblemOrderByPriorityAsc - Priority를 기준으로 오름차순 정렬하기
+    
+    페이지네이션을 할 경우, Sort 객체를 추가로 전달해서 정렬을 요청할 수 있음
+            PageRequest.of(
+                findAllProblemReqDto.getPageNumber()-1,
+                findAllProblemReqDto.getPageSize(), 
+                Sort.by(Sort.Direction.ASC, "id") // 다음과 같이 정렬방향과 기준을 설정할 수 있음
+            )
