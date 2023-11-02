@@ -7,10 +7,10 @@ import lombok.Getter;
 @Getter
 public class CreateProblemResDto {
     private final Long id;
-    private final String title;
+    private final String createrEmail;
 
     public CreateProblemResDto(ProblemEntity problem) {
         this.id = problem.getId();
-        this.title = problem.getTitle();
+        this.createrEmail = problem.getCreator().getEmail();
     }
 }
