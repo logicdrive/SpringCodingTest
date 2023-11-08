@@ -57,6 +57,7 @@ public class SecurityConfig {
 
                 // 일반적으로 공개된 정보들에 대한 접근을 허용시키기 위해서
                 .antMatchers(HttpMethod.GET, "/problemInfos/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/submissionInfos/submissions/**").permitAll()
 
                 // Swagger URL 들을 전부 예외 처리시키기 위해서
                 .antMatchers(
