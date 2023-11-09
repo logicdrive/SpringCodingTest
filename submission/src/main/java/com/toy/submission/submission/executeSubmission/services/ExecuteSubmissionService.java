@@ -10,6 +10,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.toy.submission.submission.executeSubmission.reqDtos.ExecuteSubmissionReqDto;
+import com.toy.submission.submission.executeSubmission.reqDtos.InputCase;
 
 import lombok.RequiredArgsConstructor;
 
@@ -41,11 +42,12 @@ public class ExecuteSubmissionService {
             File inputsDir = new File(inputsDirPath);
             inputsDir.mkdir();
 
-            List<String> inputs = executeSubmissionReqDto.getInputs();
-            for(int index=0; index<inputs.size(); index++)
+            List<InputCase> inputCases = executeSubmissionReqDto.getInputCases();
+            for(int index=0; index<inputCases.size(); index++)
             {
-                FileWriter inputFileWriter = new FileWriter(inputsDirPath + "/" + index + ".txt");
-                inputFileWriter.write(inputs.get(index));
+                InputCase inputCase = inputCases.get(index);
+                FileWriter inputFileWriter = new FileWriter(inputsDirPath + "/" + index + "_" + inputCase.getTestCaseId() + ".txt");
+                inputFileWriter.write(inputCase.getInput());
                 inputFileWriter.close();
             }
             

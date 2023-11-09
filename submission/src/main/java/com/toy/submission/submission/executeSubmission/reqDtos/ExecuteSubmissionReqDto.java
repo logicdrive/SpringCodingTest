@@ -15,5 +15,5 @@ public class ExecuteSubmissionReqDto {
     private final String language;
     private final int timeLimitSecond;
     private final int memoryLimitMb;
-    private final List<String> inputs;
+    private final List<InputCase> inputCases;
 }

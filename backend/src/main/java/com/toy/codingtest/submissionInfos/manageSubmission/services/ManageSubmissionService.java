@@ -55,8 +55,13 @@ public class ManageSubmissionService {
         request.put("language", createdSubmission.getLanguage());
         request.put("timeLimitSecond", problemToSave.getTimeLimitSecond());
         request.put("memoryLimitMb", problemToSave.getMemoryLimitMb());
-        request.put("inputs", this.testcaseRepository.findAllByProblemOrderByPriorityAsc(problemToSave).stream()
-            .map(testcase -> testcase.getInputValue())
+        request.put("inputCases", this.testcaseRepository.findAllByProblemOrderByPriorityAsc(problemToSave).stream()
+            .map(testcase -> {
+                Map<String, Object> inputCase = new HashMap<>();
+                inputCase.put("testCaseId", testcase.getId());
+                inputCase.put("input", testcase.getInputValue());
+                return inputCase;
+            })
             .collect(Collectors.toList()));
         
         WebClient.create("http://localhost:48081/submissions/execute")
