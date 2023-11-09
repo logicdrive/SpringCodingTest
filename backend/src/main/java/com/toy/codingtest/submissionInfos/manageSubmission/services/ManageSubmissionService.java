@@ -1,12 +1,15 @@
 package com.toy.codingtest.submissionInfos.manageSubmission.services;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.toy.codingtest.components.security.JwtTokenService;
@@ -18,7 +21,6 @@ import com.toy.codingtest.submissionInfos.components.exceptions.SubmissionNotFou
 import com.toy.codingtest.submissionInfos.components.repositories.SubmissionRepository;
 import com.toy.codingtest.submissionInfos.components.repositories.TestcaseRepository;
 import com.toy.codingtest.submissionInfos.manageSubmission.reqDtos.CreateSubmissionReqDto;
-import com.toy.codingtest.submissionInfos.manageSubmission.reqDtos.ExecuteSubmissionReqDto;
 import com.toy.codingtest.submissionInfos.manageSubmission.reqDtos.FindAllSubmissionReqDto;
 
 import lombok.RequiredArgsConstructor;
@@ -45,21 +47,26 @@ public class ManageSubmissionService {
                 .build()
         );
 
+        
+        // 제출 코드 실행 서버에 제출된 코드 및 입력값들을 전달시키기 위해서
+        Map<String, Object> request = new HashMap<>();
+        request.put("submissionId", createdSubmission.getId());
+        request.put("code", createdSubmission.getCode());
+        request.put("language", createdSubmission.getLanguage());
+        request.put("timeLimitSecond", problemToSave.getTimeLimitSecond());
+        request.put("memoryLimitMb", problemToSave.getMemoryLimitMb());
+        request.put("inputs", this.testcaseRepository.findAllByProblemOrderByPriorityAsc(problemToSave).stream()
+            .map(testcase -> testcase.getInputValue())
+            .collect(Collectors.toList()));
+        
         WebClient.create("http://localhost:48081/submissions/execute")
             .post()
             .contentType(MediaType.APPLICATION_JSON)
-            .bodyValue(
-                ExecuteSubmissionReqDto.builder()
-                    .submissionId(createdSubmission.getId())
-                    .code(createdSubmission.getCode())
-                    .language(createdSubmission.getLanguage())
-                    .timeLimitSecond(createdSubmission.getTimeMilisecond())
-                    .memoryKb(createdSubmission.getMemoryKb())
-                    .inputs(this.testcaseRepository.findAllByProblemOrderByPriorityAsc(problemToSave).stream()
-                        .map(testcase -> testcase.getInputValue())
-                        .collect(Collectors.toList()))
-            )
-            .retrieve();
+            .body(BodyInserters.fromValue(request))
+            .retrieve()
+            .bodyToMono(String.class)
+            .subscribe();
+
 
         return createdSubmission;
     }
