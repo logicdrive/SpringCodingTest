@@ -1,14 +1,12 @@
-package com.toy.submission.submission.executeSubmission.reqDtos;
+package com.toy.codingtest.submissionInfos.manageSubmission.reqDtos;
 
 import java.util.List;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.Builder;
+import lombok.Data;
 
-@ToString
-@Getter
-@RequiredArgsConstructor
+@Data
+@Builder
 public class ExecuteSubmissionReqDto {
     private final Long submissionId;
     private final String code;

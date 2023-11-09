@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ExecuteSubmissionService {
     public void execute(ExecuteSubmissionReqDto executeSubmissionReqDto) {
-        System.out.println("ExecuteSubmissionService.executed() Logics...");
+        System.out.println("ExecuteSubmissionService.executed() : executeSubmissionReqDto => " + executeSubmissionReqDto.toString());
+        System.out.println("Inputs Size :" + executeSubmissionReqDto.getInputs().size());
     }
 }
