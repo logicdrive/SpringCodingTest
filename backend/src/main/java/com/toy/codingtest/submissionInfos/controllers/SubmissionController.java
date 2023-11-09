@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.toy.codingtest.submissionInfos.manageSubmission.reqDtos.CreateSubmissionReqDto;
 import com.toy.codingtest.submissionInfos.manageSubmission.reqDtos.FindAllSubmissionReqDto;
+import com.toy.codingtest.submissionInfos.manageSubmission.reqDtos.VerdictSubmissionReqDto;
 import com.toy.codingtest.submissionInfos.manageSubmission.resDtos.CreateSubmissionResDto;
 import com.toy.codingtest.submissionInfos.manageSubmission.resDtos.FindAllSubmissionResDto;
 import com.toy.codingtest.submissionInfos.manageSubmission.resDtos.FindOneSubmissionResDto;
+import com.toy.codingtest.submissionInfos.manageSubmission.resDtos.VerdictSubmissionResDto;
 import com.toy.codingtest.submissionInfos.manageSubmission.services.ManageSubmissionService;
 
 import lombok.RequiredArgsConstructor;
@@ -43,6 +45,13 @@ public class SubmissionController {
     public ResponseEntity<FindOneSubmissionResDto> findOne(@PathVariable Long id) {
         return ResponseEntity.ok(
             new FindOneSubmissionResDto(this.manageSubmissionService.findOne(id))
+        );
+    }
+
+    @PostMapping("/verdict/{id}")
+    public ResponseEntity<VerdictSubmissionResDto> verdict(@PathVariable Long id, @RequestBody VerdictSubmissionReqDto verdictSubmissionReqDto) {
+        return ResponseEntity.ok(
+            new VerdictSubmissionResDto(this.manageSubmissionService.verdict(id, verdictSubmissionReqDto))
         );
     }
 }

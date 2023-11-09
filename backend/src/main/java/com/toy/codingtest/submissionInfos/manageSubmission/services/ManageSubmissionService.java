@@ -22,6 +22,7 @@ import com.toy.codingtest.submissionInfos.components.repositories.SubmissionRepo
 import com.toy.codingtest.submissionInfos.components.repositories.TestcaseRepository;
 import com.toy.codingtest.submissionInfos.manageSubmission.reqDtos.CreateSubmissionReqDto;
 import com.toy.codingtest.submissionInfos.manageSubmission.reqDtos.FindAllSubmissionReqDto;
+import com.toy.codingtest.submissionInfos.manageSubmission.reqDtos.VerdictSubmissionReqDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -89,5 +90,12 @@ public class ManageSubmissionService {
     public SubmissionEntity findOne(Long id) {
         return this.submissionRepository.findById(id)
             .orElseThrow(() -> new SubmissionNotFoundException());
+    }
+
+    public SubmissionEntity verdict(Long submissionId, VerdictSubmissionReqDto verdictSubmissionReqDto) {
+        SubmissionEntity submissionToUpdate = this.submissionRepository.getReferenceById(submissionId);
+        submissionToUpdate.setVerdict("Updated");
+        this.submissionRepository.save(submissionToUpdate);
+        return submissionToUpdate;
     }
 }

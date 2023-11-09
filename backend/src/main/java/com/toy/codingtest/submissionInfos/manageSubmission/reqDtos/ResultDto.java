@@ -5,8 +5,9 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class CreateSubmissionReqDto {
-    private final Long problemId;
-    private final String language;
-    private final String code;
+public class ResultDto {
+    private final int timeMilisecond;
+    private final int memoryKb;
+    private final String output;
+    private final Long testcaseId;
 }
