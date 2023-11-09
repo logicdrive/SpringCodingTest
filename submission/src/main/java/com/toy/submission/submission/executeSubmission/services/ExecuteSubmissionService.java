@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.toy.submission.components.services.StringService;
 import com.toy.submission.submission.executeSubmission.reqDtos.ExecuteSubmissionReqDto;
 import com.toy.submission.submission.executeSubmission.reqDtos.InputCaseDto;
 
@@ -17,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ExecuteSubmissionService {
+    private final StringService stringService;
+
     public void execute(ExecuteSubmissionReqDto executeSubmissionReqDto) {
         // submissions 와 관련된 폴더가 없을 경우 구성시키기 위해서
         String submissionsPath = "submissions/";
@@ -46,7 +49,11 @@ public class ExecuteSubmissionService {
             for(int index=0; index<inputCases.size(); index++)
             {
                 InputCaseDto inputCase = inputCases.get(index);
-                FileWriter inputFileWriter = new FileWriter(inputsDirPath + "/" + index + "_" + inputCase.getTestCaseId() + ".txt");
+                String inputFilePath = (
+                    inputsDirPath + "/" + stringService.padLeft(String.valueOf(index), 10, '0') +
+                    "_" + inputCase.getTestCaseId() + ".txt"
+                );
+                FileWriter inputFileWriter = new FileWriter(inputFilePath);
                 inputFileWriter.write(inputCase.getInput());
                 inputFileWriter.close();
             }
