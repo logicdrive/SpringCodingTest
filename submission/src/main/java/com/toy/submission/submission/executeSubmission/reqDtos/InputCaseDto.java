@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class InputCase {
+public class InputCaseDto {
     private Long testCaseId;
     private String input;
 }
