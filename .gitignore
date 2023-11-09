@@ -35,5 +35,6 @@ build/
 ### Private Infos ###
 /private
 
-### Execute dirs ###
+### Execute Submission dirs ###
 execute/submissions
+submission/submissions
