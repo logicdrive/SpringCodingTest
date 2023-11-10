@@ -1,11 +1,11 @@
 package com.toy.codingtest.user.signIn.reqDtos;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
+import lombok.ToString;
 
-@Getter
-@RequiredArgsConstructor
+@Data
+@ToString
 public class SignInReqDto {
-    private final String email;
-    private final String password;
+    private String email;
+    private String password;
 }

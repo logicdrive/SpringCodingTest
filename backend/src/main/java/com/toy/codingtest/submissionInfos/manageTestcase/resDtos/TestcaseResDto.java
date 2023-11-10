@@ -3,8 +3,10 @@ package com.toy.codingtest.submissionInfos.manageTestcase.resDtos;
 import com.toy.codingtest.submissionInfos.components.entities.TestcaseEntity;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class TestcaseResDto {
     private final Long id;
     private final String inputValue;

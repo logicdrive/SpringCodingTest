@@ -3,8 +3,10 @@ package com.toy.codingtest.submissionInfos.manageSubmission.resDtos;
 import com.toy.codingtest.submissionInfos.components.entities.SubmissionEntity;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class CreateSubmissionResDto {
     private final Long id;
     private final Long problemId;

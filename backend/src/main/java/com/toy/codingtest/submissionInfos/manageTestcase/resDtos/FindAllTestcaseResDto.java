@@ -6,8 +6,10 @@ import java.util.stream.Collectors;
 import com.toy.codingtest.submissionInfos.components.entities.TestcaseEntity;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class FindAllTestcaseResDto {
     private final List<TestcaseResDto> testcases;
 

@@ -6,8 +6,10 @@ import java.util.stream.Collectors;
 import com.toy.codingtest.problemInfos.components.entities.ProblemEntity;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class FindAllProblemResDto {
     private final List<BriefProblemResDto> problems;
 

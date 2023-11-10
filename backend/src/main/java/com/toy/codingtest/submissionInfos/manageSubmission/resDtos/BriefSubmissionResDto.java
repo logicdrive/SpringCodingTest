@@ -3,10 +3,12 @@ package com.toy.codingtest.submissionInfos.manageSubmission.resDtos;
 import com.toy.codingtest.submissionInfos.components.entities.SubmissionEntity;
 
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Date;
 
 @Getter
+@ToString
 public class BriefSubmissionResDto {
     private final Long id;
     private final int timeMilisecond;

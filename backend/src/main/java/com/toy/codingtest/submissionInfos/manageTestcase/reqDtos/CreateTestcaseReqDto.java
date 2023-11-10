@@ -1,12 +1,12 @@
 package com.toy.codingtest.submissionInfos.manageTestcase.reqDtos;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
+import lombok.ToString;
 
-@Getter
-@RequiredArgsConstructor
+@Data
+@ToString
 public class CreateTestcaseReqDto {
-    private final String inputValue;
-    private final String outputValue;
-    private final Long problemId;  
+    private String inputValue;
+    private String outputValue;
+    private Long problemId;  
 }

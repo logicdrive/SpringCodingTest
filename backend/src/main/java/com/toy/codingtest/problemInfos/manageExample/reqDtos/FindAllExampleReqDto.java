@@ -1,10 +1,10 @@
 package com.toy.codingtest.problemInfos.manageExample.reqDtos;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
+import lombok.ToString;
 
-@Getter
-@RequiredArgsConstructor
+@Data
+@ToString
 public class FindAllExampleReqDto {
-    private final Long problemId;  
+    private Long problemId;  
 }

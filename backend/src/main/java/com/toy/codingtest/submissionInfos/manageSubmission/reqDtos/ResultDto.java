@@ -1,13 +1,13 @@
 package com.toy.codingtest.submissionInfos.manageSubmission.reqDtos;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
+import lombok.ToString;
 
-@Getter
-@RequiredArgsConstructor
+@Data
+@ToString
 public class ResultDto {
-    private final int timeMilisecond;
-    private final int memoryKb;
-    private final String output;
-    private final Long testcaseId;
+    private int timeMilisecond;
+    private int memoryKb;
+    private String output;
+    private Long testcaseId;
 }

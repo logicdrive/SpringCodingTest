@@ -1,11 +1,11 @@
 package com.toy.codingtest.problemInfos.manageProblem.reqDtos;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
+import lombok.ToString;
 
-@Getter
-@RequiredArgsConstructor
+@Data
+@ToString
 public class FindAllProblemReqDto {
-    private final int pageNumber;
-    private final int pageSize;
+    private int pageNumber;
+    private int pageSize;
 }

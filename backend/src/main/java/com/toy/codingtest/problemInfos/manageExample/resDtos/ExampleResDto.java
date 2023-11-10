@@ -3,8 +3,10 @@ package com.toy.codingtest.problemInfos.manageExample.resDtos;
 import com.toy.codingtest.problemInfos.components.entities.ExampleEntity;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class ExampleResDto {
     private final Long id;
     private final String inputValue;

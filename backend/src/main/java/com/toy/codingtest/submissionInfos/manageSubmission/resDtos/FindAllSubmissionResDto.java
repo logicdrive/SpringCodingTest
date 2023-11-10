@@ -6,8 +6,10 @@ import java.util.stream.Collectors;
 import com.toy.codingtest.submissionInfos.components.entities.SubmissionEntity;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class FindAllSubmissionResDto {
     private final List<BriefSubmissionResDto> submissions;
 

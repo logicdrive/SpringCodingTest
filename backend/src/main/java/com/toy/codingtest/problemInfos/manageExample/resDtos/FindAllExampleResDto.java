@@ -6,8 +6,10 @@ import java.util.stream.Collectors;
 import com.toy.codingtest.problemInfos.components.entities.ExampleEntity;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class FindAllExampleResDto {
     private final List<ExampleResDto> examples;
 

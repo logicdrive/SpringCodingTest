@@ -1,11 +1,11 @@
 package com.toy.submission.submission.executeSubmission.reqDtos;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
+import lombok.ToString;
 
-@Getter
-@RequiredArgsConstructor
+@Data
+@ToString
 public class InputCaseDto {
-    private final Long testCaseId;
-    private final String input;
+    private Long testCaseId;
+    private String input;
 }
