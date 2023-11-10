@@ -73,8 +73,7 @@ public class ExecuteSubmissionService {
                     "--language", executeSubmissionReqDto.getLanguage(),
                     "--timeLimitSecond", String.valueOf(executeSubmissionReqDto.getTimeLimitSecond()),
                     "--memoryLimitMb", String.valueOf(executeSubmissionReqDto.getMemoryLimitMb()),
-                    "--codePath", submitCodeFilePath,
-                    "--inputsPath", inputsDirPath
+                    "--submitDirPath", submitDirPath
             )));
 
         } catch (IOException e) {
