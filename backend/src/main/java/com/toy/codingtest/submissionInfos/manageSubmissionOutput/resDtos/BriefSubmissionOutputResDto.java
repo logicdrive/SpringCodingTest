@@ -12,6 +12,7 @@ public class BriefSubmissionOutputResDto {
     private final int timeMilisecond;
     private final int memoryKb;
     private final String verdict;
+    private final int priority;
     private final Long testcaseId;
     private final Long submissionId;
 
@@ -20,6 +21,7 @@ public class BriefSubmissionOutputResDto {
         this.timeMilisecond = submissionOutputEntity.getTimeMilisecond();
         this.memoryKb = submissionOutputEntity.getMemoryKb();
         this.verdict = submissionOutputEntity.getVerdict();
+        this.priority = submissionOutputEntity.getPriority();
         this.testcaseId = submissionOutputEntity.getTestcase().getId();
         this.submissionId = submissionOutputEntity.getSubmission().getId();
     }

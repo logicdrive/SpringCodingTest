@@ -8,4 +8,5 @@ import lombok.ToString;
 public class FindAllSubmissionOutputReqDto {
     private int pageNumber;
     private int pageSize;
+    private Long submissionId;
 }

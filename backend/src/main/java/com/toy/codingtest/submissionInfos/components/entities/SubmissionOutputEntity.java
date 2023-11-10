@@ -42,6 +42,9 @@ public class SubmissionOutputEntity {
     @Lob
     private String outputValue;
 
+    @Column(nullable = false)
+    private int priority;
+
     
     @ManyToOne
     @JoinColumn(name = "testcaseId", nullable = false)
