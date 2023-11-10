@@ -14,6 +14,7 @@ public class FindOneSubmissionOutputResDto {
     private final String verdict;
     private final String inputValue;
     private final String outputValue;
+    private final String expectedValue;
     private final int priority;
     private final Long testcaseId;
     private final Long submissionId;
@@ -25,6 +26,7 @@ public class FindOneSubmissionOutputResDto {
         this.verdict = submissionOutputEntity.getVerdict();
         this.inputValue = submissionOutputEntity.getTestcase().getInputValue();
         this.outputValue = submissionOutputEntity.getOutputValue();
+        this.expectedValue = submissionOutputEntity.getTestcase().getOutputValue();
         this.priority = submissionOutputEntity.getPriority();
         this.testcaseId = submissionOutputEntity.getTestcase().getId();
         this.submissionId = submissionOutputEntity.getSubmission().getId();

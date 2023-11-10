@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.toy.codingtest.submissionInfos.components.entities.SubmissionEntity;
 import com.toy.codingtest.submissionInfos.components.entities.SubmissionOutputEntity;
+import com.toy.codingtest.submissionInfos.components.exceptions.SubmissionNotFoundException;
 import com.toy.codingtest.submissionInfos.components.exceptions.SubmissionOutputNotFoundException;
 import com.toy.codingtest.submissionInfos.components.repositories.SubmissionOutputRepository;
 import com.toy.codingtest.submissionInfos.components.repositories.SubmissionRepository;
@@ -23,7 +24,7 @@ public class ManageSubmissionOutputService {
 
     public List<SubmissionOutputEntity> findAll(FindAllSubmissionOutputReqDto findAllSubmissionOutputReqDto) {
         SubmissionEntity submissionToQuery = submissionRepository.findById(findAllSubmissionOutputReqDto.getSubmissionId())
-                                                .orElseThrow(() -> new SubmissionOutputNotFoundException());
+                                                .orElseThrow(() -> new SubmissionNotFoundException());
 
         return this.submissionOutputRepository.findAllBySubmission(
             submissionToQuery,

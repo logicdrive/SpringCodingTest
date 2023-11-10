@@ -17,8 +17,10 @@ import com.toy.codingtest.problemInfos.components.entities.ProblemEntity;
 import com.toy.codingtest.problemInfos.components.exceptions.ProblemNotFoundException;
 import com.toy.codingtest.problemInfos.components.repositories.ProblemRepository;
 import com.toy.codingtest.submissionInfos.components.entities.SubmissionEntity;
+import com.toy.codingtest.submissionInfos.components.entities.SubmissionOutputEntity;
 import com.toy.codingtest.submissionInfos.components.entities.TestcaseEntity;
 import com.toy.codingtest.submissionInfos.components.exceptions.SubmissionNotFoundException;
+import com.toy.codingtest.submissionInfos.components.repositories.SubmissionOutputRepository;
 import com.toy.codingtest.submissionInfos.components.repositories.SubmissionRepository;
 import com.toy.codingtest.submissionInfos.components.repositories.TestcaseRepository;
 import com.toy.codingtest.submissionInfos.manageSubmission.reqDtos.CreateSubmissionReqDto;
@@ -32,6 +34,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ManageSubmissionService {
     private final SubmissionRepository submissionRepository;
+    private final SubmissionOutputRepository submissionOutputRepository;
     private final ProblemRepository problemRepository;
     private final TestcaseRepository testcaseRepository;
     private final JwtTokenService jwtTokenService;
@@ -103,23 +106,42 @@ public class ManageSubmissionService {
         int maximeMilisecondToSave = 0;
         int maxMemoryKbToSave = 0;
         for(ResultDto result : verdictSubmissionReqDto.getResults()) {
+            String outputVerdict = "Accepted";
+
             if(result.getTimeMilisecond() > maximeMilisecondToSave) maximeMilisecondToSave = result.getTimeMilisecond();
             if(result.getTimeMilisecond() > problemToCheck.getTimeLimitSecond()*1000) {
+                outputVerdict = "TimeLimitExceeded";
                 updatedVerdict = String.format("TimeLimitExceeded(testcaseId:%d)", result.getTestcaseId());
-                break;
             }
 
             if(result.getMemoryKb() > maxMemoryKbToSave) maxMemoryKbToSave = result.getMemoryKb();
             if(result.getMemoryKb() > problemToCheck.getMemoryLimitMb()*1024) {
+                outputVerdict = "MemoryLimitExceeded";
                 updatedVerdict = String.format("MemoryLimitExceeded(testcaseId:%d)", result.getTestcaseId());
-                break;
             }
             
             TestcaseEntity testcaseToCheck = this.testcaseRepository.getReferenceById(result.getTestcaseId());
             if(!result.getOutput().equals(testcaseToCheck.getOutputValue())) {
+                outputVerdict = "WrongAnswer";
                 updatedVerdict = String.format("WrongAnswer(testcaseId:%d)", result.getTestcaseId());
-                break;
             }
+
+
+            this.submissionOutputRepository.save(
+                SubmissionOutputEntity.builder()
+                    .timeMilisecond(result.getTimeMilisecond())
+                    .memoryKb(result.getMemoryKb())
+                    .verdict(outputVerdict)
+                    .outputValue(result.getOutput())
+                    .priority(testcaseToCheck.getPriority())
+                    .testcase(testcaseToCheck)
+                    .submission(submissionToUpdate)
+                    .build()
+            );
+            
+
+            if(!updatedVerdict.equals("Accepted")) 
+                break;
         }
 
 
