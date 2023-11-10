@@ -17,11 +17,13 @@ import com.toy.codingtest.problemInfos.components.entities.ProblemEntity;
 import com.toy.codingtest.problemInfos.components.exceptions.ProblemNotFoundException;
 import com.toy.codingtest.problemInfos.components.repositories.ProblemRepository;
 import com.toy.codingtest.submissionInfos.components.entities.SubmissionEntity;
+import com.toy.codingtest.submissionInfos.components.entities.TestcaseEntity;
 import com.toy.codingtest.submissionInfos.components.exceptions.SubmissionNotFoundException;
 import com.toy.codingtest.submissionInfos.components.repositories.SubmissionRepository;
 import com.toy.codingtest.submissionInfos.components.repositories.TestcaseRepository;
 import com.toy.codingtest.submissionInfos.manageSubmission.reqDtos.CreateSubmissionReqDto;
 import com.toy.codingtest.submissionInfos.manageSubmission.reqDtos.FindAllSubmissionReqDto;
+import com.toy.codingtest.submissionInfos.manageSubmission.reqDtos.ResultDto;
 import com.toy.codingtest.submissionInfos.manageSubmission.reqDtos.VerdictSubmissionReqDto;
 
 import lombok.RequiredArgsConstructor;
@@ -94,7 +96,29 @@ public class ManageSubmissionService {
 
     public SubmissionEntity verdict(Long submissionId, VerdictSubmissionReqDto verdictSubmissionReqDto) {
         SubmissionEntity submissionToUpdate = this.submissionRepository.getReferenceById(submissionId);
-        submissionToUpdate.setVerdict("Updated");
+        ProblemEntity problemToCheck = submissionToUpdate.getProblem();
+
+
+        String updatedVerdict = "Accepted";
+        for(ResultDto result : verdictSubmissionReqDto.getResults()) {
+            if(result.getTimeMilisecond() > problemToCheck.getTimeLimitSecond()*1000) {
+                updatedVerdict = String.format("TimeLimitExceeded(testcaseId:%d)", result.getTestcaseId());
+                break;
+            }
+            if(result.getMemoryKb() > problemToCheck.getMemoryLimitMb()*1024) {
+                updatedVerdict = String.format("MemoryLimitExceeded(testcaseId:%d)", result.getTestcaseId());
+                break;
+            }
+            
+            TestcaseEntity testcaseToCheck = this.testcaseRepository.getReferenceById(result.getTestcaseId());
+            if(!result.getOutput().equals(testcaseToCheck.getOutputValue())) {
+                updatedVerdict = String.format("WrongAnswer(testcaseId:%d)", result.getTestcaseId());
+                break;
+            }
+        }
+
+
+        submissionToUpdate.setVerdict(updatedVerdict);
         this.submissionRepository.save(submissionToUpdate);
         return submissionToUpdate;
     }
