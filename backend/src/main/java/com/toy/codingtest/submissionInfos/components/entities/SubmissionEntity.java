@@ -53,11 +53,11 @@ public class SubmissionEntity {
     @Lob
     private String code;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false, updatable = false)
     private Date sentAt;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = true)
     private Date judgedAt;
 

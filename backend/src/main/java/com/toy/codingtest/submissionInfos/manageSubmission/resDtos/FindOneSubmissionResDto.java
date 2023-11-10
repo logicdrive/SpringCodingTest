@@ -5,7 +5,7 @@ import com.toy.codingtest.submissionInfos.components.entities.SubmissionEntity;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.Date;
+import java.text.SimpleDateFormat;
 
 @Getter
 @ToString
@@ -16,8 +16,8 @@ public class FindOneSubmissionResDto {
     private final String verdict;
     private final String language;
     private final String code;
-    private final Date sentAt;
-    private final Date judgedAt;
+    private final String sentAt;
+    private final String judgedAt;
     private final Long problemId;
     private final String problemTitle;
     private final String creatorEmail;
@@ -30,8 +30,8 @@ public class FindOneSubmissionResDto {
         this.verdict = submission.getVerdict();
         this.language = submission.getLanguage();
         this.code = submission.getCode();
-        this.sentAt = submission.getSentAt();
-        this.judgedAt = submission.getJudgedAt();
+        this.sentAt = (new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(submission.getSentAt());
+        this.judgedAt = (new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(submission.getJudgedAt());
         this.problemId = submission.getProblem().getId();
         this.problemTitle = submission.getProblem().getTitle();
         this.creatorEmail = submission.getCreator().getEmail();
