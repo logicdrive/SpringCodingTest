@@ -100,11 +100,16 @@ public class ManageSubmissionService {
 
 
         String updatedVerdict = "Accepted";
+        int maximeMilisecondToSave = 0;
+        int maxMemoryKbToSave = 0;
         for(ResultDto result : verdictSubmissionReqDto.getResults()) {
+            if(result.getTimeMilisecond() > maximeMilisecondToSave) maximeMilisecondToSave = result.getTimeMilisecond();
             if(result.getTimeMilisecond() > problemToCheck.getTimeLimitSecond()*1000) {
                 updatedVerdict = String.format("TimeLimitExceeded(testcaseId:%d)", result.getTestcaseId());
                 break;
             }
+
+            if(result.getMemoryKb() > maxMemoryKbToSave) maxMemoryKbToSave = result.getMemoryKb();
             if(result.getMemoryKb() > problemToCheck.getMemoryLimitMb()*1024) {
                 updatedVerdict = String.format("MemoryLimitExceeded(testcaseId:%d)", result.getTestcaseId());
                 break;
@@ -119,6 +124,9 @@ public class ManageSubmissionService {
 
 
         submissionToUpdate.setVerdict(updatedVerdict);
+        submissionToUpdate.setJudgedAt(new java.util.Date());
+        submissionToUpdate.setTimeMilisecond(maximeMilisecondToSave);
+        submissionToUpdate.setMemoryKb(maxMemoryKbToSave);
         this.submissionRepository.save(submissionToUpdate);
         return submissionToUpdate;
     }
