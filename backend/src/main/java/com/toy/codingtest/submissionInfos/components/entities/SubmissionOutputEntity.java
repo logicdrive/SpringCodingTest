@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Lob;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,12 +38,16 @@ public class SubmissionOutputEntity {
     @Column(nullable = false)
     private String verdict;
 
+    @Column(nullable = false)
+    @Lob
+    private String outputValue;
 
+    
     @ManyToOne
     @JoinColumn(name = "testcaseId", nullable = false)
     private TestcaseEntity testcase;
 
     @ManyToOne
     @JoinColumn(name = "submissionId", nullable = false)
-    private SubmissionEntity submissionId;
+    private SubmissionEntity submission;
 }

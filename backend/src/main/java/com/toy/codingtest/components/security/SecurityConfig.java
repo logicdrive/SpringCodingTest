@@ -58,6 +58,7 @@ public class SecurityConfig {
                 // 일반적으로 공개된 정보들에 대한 접근을 허용시키기 위해서
                 .antMatchers(HttpMethod.GET, "/problemInfos/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/submissionInfos/submissions/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/submissionInfos/submissionOutputs/**").permitAll()
 
                 // 일시적인 Public 허용
                 .antMatchers(HttpMethod.POST, "/submissionInfos/submissions/verdict/**").permitAll()
