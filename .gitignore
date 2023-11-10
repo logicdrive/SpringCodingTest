@@ -38,3 +38,6 @@ build/
 ### Execute Submission dirs ###
 execute/submissions
 submission/submissions
+
+### React Node_Modules ###
+frontend/node_modules
