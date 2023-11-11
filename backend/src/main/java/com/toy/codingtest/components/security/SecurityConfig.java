@@ -53,7 +53,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(request -> request
                 // SignIn, SignUp 요청을 모든 유저로부터 허용시키기 위해서
                 .antMatchers(HttpMethod.POST, "/users").permitAll()
-                .antMatchers(HttpMethod.GET, "/users").permitAll()
+                .antMatchers(HttpMethod.POST, "/users/signIn").permitAll()
 
                 // 일반적으로 공개된 정보들에 대한 접근을 허용시키기 위해서
                 .antMatchers(HttpMethod.GET, "/problemInfos/**").permitAll()
