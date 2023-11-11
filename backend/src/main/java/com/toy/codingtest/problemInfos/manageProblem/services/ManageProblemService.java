@@ -12,6 +12,9 @@ import com.toy.codingtest.problemInfos.components.exceptions.ProblemNotFoundExce
 import com.toy.codingtest.problemInfos.components.repositories.ProblemRepository;
 import com.toy.codingtest.problemInfos.manageProblem.reqDtos.CreateProblemReqDto;
 import com.toy.codingtest.problemInfos.manageProblem.reqDtos.FindAllProblemReqDto;
+import com.toy.codingtest.user.components.entities.UserEntity;
+import com.toy.codingtest.user.components.exceptions.UserNotFoundException;
+import com.toy.codingtest.user.components.repositories.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ManageProblemService {
     private final ProblemRepository problemRepository;
+    private final UserRepository userRepository;
     private final JwtTokenService jwtTokenService;
 
     public ProblemEntity create(CreateProblemReqDto createProblemReqDto) {
@@ -39,13 +43,31 @@ public class ManageProblemService {
     }
 
     public List<ProblemEntity> findAll(FindAllProblemReqDto findAllProblemReqDto) {
-        return this.problemRepository.findAll(
-            PageRequest.of(
-                findAllProblemReqDto.getPageNumber()-1,
-                findAllProblemReqDto.getPageSize(), 
-                Sort.by(Sort.Direction.ASC, "id")
-            )
-        ).toList();
+        if(findAllProblemReqDto.getType().equals("creater")) {
+
+            UserEntity userToQuery = this.userRepository.findByName(findAllProblemReqDto.getQuery())
+                .orElseThrow(() -> new UserNotFoundException());
+
+            return this.problemRepository.findAllByCreator(
+                userToQuery,
+                PageRequest.of(
+                    findAllProblemReqDto.getPageNumber()-1,
+                    findAllProblemReqDto.getPageSize(), 
+                    Sort.by(Sort.Direction.ASC, "id")
+                )
+            );
+
+        } else {
+
+            return this.problemRepository.findAll(
+                PageRequest.of(
+                    findAllProblemReqDto.getPageNumber()-1,
+                    findAllProblemReqDto.getPageSize(), 
+                    Sort.by(Sort.Direction.ASC, "id")
+                )
+            ).toList();
+
+        }
     }
 
     public ProblemEntity findOne(Long id) {

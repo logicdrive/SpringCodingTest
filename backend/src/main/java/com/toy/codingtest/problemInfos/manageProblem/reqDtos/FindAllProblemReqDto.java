@@ -8,4 +8,6 @@ import lombok.ToString;
 public class FindAllProblemReqDto {
     private int pageNumber;
     private int pageSize;
+    private String type = "";
+    private String query = "";
 }
