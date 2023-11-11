@@ -18,12 +18,16 @@ const SignUpPage = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        addAlertPopUp("회원가입이 성공적으로 완료되었습니다", "success")
         try {
+
             // await axios.post(`${APIConfig.url}/users`, signUpData);
+
+            addAlertPopUp("회원가입이 성공적으로 완료되었습니다", "success");
             navigate("/user/signin");
+
         } catch (error) {
-            console.error('회원가입 오류:', error);
+            addAlertPopUp("회원가입 도중 에러가 발생했습니다!", "error");
+            console.error("회원가입 도중 에러가 발생했습니다!", error);
         }
     };
 
