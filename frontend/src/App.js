@@ -14,6 +14,7 @@ import SubmitPage from "./problem/submission/submit/SubmitPage";
 import ShowAllSubmissionPage from "./problem/submission/showSubmitAll/ShowAllSubmissionPage";
 import ShowOneSubmissionPage from "./problem/submission/showSubmitOne/ShowOneSubmissionPage";
 
+import CreateProblemPage from "./problem/editing/create/CreateProblemPage";
 import EditProblemPage from "./problem/editing/edit/EditProblemPage";
 import ShowOnlyEditableProblemPage from "./problem/editing/showOnlyEditable/ShowOnlyEditableProblemPage";
 
@@ -37,6 +38,7 @@ function App() {
                 <Route path="/problem/submission/showSubmissionAll/:problemId" element={<ShowAllSubmissionPage/>} />
                 <Route path="/problem/submission/showSubmissionOne/:submissionId" element={<ShowOneSubmissionPage/>} />
 
+                <Route path="/problem/editing/create" element={<CreateProblemPage/>} />
                 <Route path="/problem/editing/edit/:problemId" element={<EditProblemPage/>} />
                 <Route path="/problem/editing/showOnlyEditable" element={<ShowOnlyEditableProblemPage/>} />
 

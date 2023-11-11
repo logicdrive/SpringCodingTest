@@ -22,7 +22,7 @@ const Navigation = () => {
                             <Typography sx={{color: "white", fontWeight: "bolder", fontFamily: "BMDfont", paddingLeft:2}}>문제풀기</Typography>
                         </Button>
                     </Link>
-                    <Link component={RouterLink} to="/problem/editing/showOnlyEditable" sx={{flexGrow:1}}>
+                    <Link component={RouterLink} to="/problem/editing/showOnlyEditable" sx={{flexGrow: 1}}>
                         <Button>
                             <Typography sx={{color: "white", fontWeight: "bolder", fontFamily: "BMDfont"}}>문제관리</Typography>
                         </Button>
