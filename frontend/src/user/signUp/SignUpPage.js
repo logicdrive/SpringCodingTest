@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Paper, Button, TextField, Typography, Alert } from '@mui/material';
+import { Container, Paper, Button, TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import APIConfig from "../../APIConfig";
 import { AlertPopupContext } from "../../components/alertPopUp/AlertPopUpContext"
@@ -20,8 +20,7 @@ const SignUpPage = () => {
 
         try {
 
-            // await axios.post(`${APIConfig.url}/users`, signUpData);
-
+            await axios.post(`${APIConfig.url}/users`, signUpData);
             addAlertPopUp("회원가입이 성공적으로 완료되었습니다", "success");
             navigate("/user/signin");
 
