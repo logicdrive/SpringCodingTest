@@ -7,7 +7,7 @@ import { JwtTokenContext } from "../jwtToken/JwtTokenContext";
 
 const Navigation = () => {
     const { addAlertPopUp } = useContext(AlertPopupContext);
-    const { registerTokenValue } = useContext(JwtTokenContext);
+    const { jwtTokenState, deleteTokenValue } = useContext(JwtTokenContext);
 
     return (
         <AppBar position="static">
@@ -28,6 +28,9 @@ const Navigation = () => {
                         </Button>
                     </Link>
    
+            { 
+                (jwtTokenState.jwtToken == null) ? (
+                    <>
                     <Link component={RouterLink} to="/user/signin">
                         <Button>
                             <Typography sx={{color: "white", fontWeight: "bolder", fontFamily: "BMDfont"}}>로그인</Typography>
@@ -38,6 +41,21 @@ const Navigation = () => {
                             <Typography sx={{color: "white", fontWeight: "bolder", fontFamily: "BMDfont"}}>회원가입</Typography>
                         </Button>
                     </Link>
+                    </>
+                ) : (                            
+                    <>
+                    <Typography sx={{color: "lightblue", fontWeight: "bolder", fontFamily: "BMDfont"}}>
+                        {jwtTokenState.jwtToken.name} 님 환영합니다!
+                    </Typography>
+                    <Button onClick={() => {
+                        deleteTokenValue();
+                        addAlertPopUp("로그아웃이 정상적으로 완료되었습니다.", "success");
+                    }}>
+                            <Typography sx={{color: "white", fontWeight: "bolder", fontFamily: "BMDfont"}}>로그아웃</Typography>
+                    </Button>
+                    </>
+                )
+            }
                 </Toolbar>
             </Container>
         </AppBar>

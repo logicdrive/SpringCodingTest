@@ -21,7 +21,7 @@ const SignUpPage = () => {
         try {
 
             await axios.post(`${APIConfig.url}/users`, signUpData);
-            addAlertPopUp("회원가입이 성공적으로 완료되었습니다", "success");
+            addAlertPopUp("회원가입이 성공적으로 완료되었습니다.", "success");
             navigate("/user/signin");
 
         } catch (error) {
