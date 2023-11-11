@@ -39,7 +39,7 @@ const AlertPopupProvider = ({ children }) => {
         dispatch({type: ADD_ALERT_POP_UP, payload: {message: message, type:type, id:Date.now()}})
     };
     const deleteAlertPopUp = (id) => {
-        dispatch({type: DELETE_ALERT_POP_UP, payload: {id: id}})
+        dispatch({type: DELETE_ALERT_POP_UP, payload: id})
     };
 
     return (

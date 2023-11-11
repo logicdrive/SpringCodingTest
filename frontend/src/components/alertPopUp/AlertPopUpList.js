@@ -4,13 +4,14 @@ import { AlertPopupContext } from './AlertPopUpContext';
 
 
 const AlertPopUpList = () => {
-    const { alertPopupState } = useContext(AlertPopupContext)
+    const { alertPopupState, deleteAlertPopUp } = useContext(AlertPopupContext)
 
     return (
-        <Stack style={{position: "fixed", right: "10px", bottom: "10px"}}>
+        <Stack style={{position: "fixed", right: "10px", bottom: "10px"}} spacing={1}>
             {
                 alertPopupState.alertPopUps.map((alertPopup) => (
-                    <Alert key={alertPopup.id} severity={alertPopup.type} onClose={() => {}}>
+                    <Alert key={alertPopup.id} severity={alertPopup.type} 
+                        onClose={() => {deleteAlertPopUp(alertPopup.id)}}>
                         {alertPopup.message}
                     </Alert>
                 ))
