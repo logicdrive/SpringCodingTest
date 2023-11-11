@@ -1,5 +1,11 @@
+import ProblemSubmissionNavigation from '../../navigation/ProblemSubmissionNavigation';
+
 const ShowAllSubmissionPage = () => {
-    return <h3>ShowAllSubmissionPage Page</h3>
+    return (
+        <>
+            <ProblemSubmissionNavigation/>
+        </>
+    );
 }
 
 export default ShowAllSubmissionPage;
