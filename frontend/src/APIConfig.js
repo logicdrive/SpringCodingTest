@@ -1,3 +1,5 @@
-export default {
-  url : 'http://localhost:8080'
-}
+const APIConfig = {
+  url : "http://localhost:8080"
+};
+
+export default APIConfig;

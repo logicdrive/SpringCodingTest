@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Paper, Button, TextField, Typography } from '@mui/material';
+import { Container, Paper, Button, TextField, Typography, Alert } from '@mui/material';
+import axios from 'axios';
+import APIConfig from "../../APIConfig";
+import { AlertPopupContext } from "../../components/alertPopUp/AlertPopUpContext"
 
 const SignUpPage = () => {
+    const { addAlertPopUp } = useContext(AlertPopupContext)
     const navigate = useNavigate();
     const [signUpData, setSignUpData] = useState({
         email: "",
@@ -13,7 +17,14 @@ const SignUpPage = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(signUpData);
+
+        addAlertPopUp("회원가입이 성공적으로 완료되었습니다", "success")
+        try {
+            // await axios.post(`${APIConfig.url}/users`, signUpData);
+            navigate("/user/signin");
+        } catch (error) {
+            console.error('회원가입 오류:', error);
+        }
     };
 
     const handleInputChange = (event) => {
