@@ -16,3 +16,8 @@ code {
   font-family: "BMDfont";
   src: url("./fonts/BMDOHYEON_ttf.ttf");
 }
+
+@font-face {
+  font-family: "BMHfont";
+  src: url("./fonts/BMHANNAAir_ttf.ttf");
+}
