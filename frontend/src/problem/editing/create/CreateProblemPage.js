@@ -1,15 +1,16 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Toolbar, Typography, Grid, TextField, Button, 
-    TableContainer, Table, TableHead, TableRow, TableCell, TableBody,
     Dialog, DialogTitle, DialogContent, DialogActions} from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import axios from 'axios';
 import APIConfig from "../../../APIConfig";
 import { AlertPopupContext } from "../../../components/alertPopUp/AlertPopUpContext"
+import { JwtTokenContext } from "../../../components/jwtToken/JwtTokenContext";
 
 const CreateProblemPage = () => {
     const { addAlertPopUp } = useContext(AlertPopupContext);
+    const { jwtTokenState } = useContext(JwtTokenContext);
     const navigate = useNavigate();
 
 
@@ -63,11 +64,45 @@ const CreateProblemPage = () => {
 
         try {
 
-            console.log(problemInfo);
+            const requestHeader = {headers: {Authorization: jwtTokenState.jwtToken.Authorization}};
+            const problemInfoToSend = {
+                title: problemInfo.title,
 
-            // await axios.post(`${APIConfig.url}/problemInfos/problems`, problemInfo);
-            // addAlertPopUp("문제 생성이 성공적으로 완료되었습니다.", "success");
-            // navigate("/problem/editing/showOnlyEditable");
+                timeLimitSecond: problemInfo.timeLimitSecond,
+                memoryLimitMb: problemInfo.memoryLimitMb,
+                
+                problemExplain: problemInfo.problemExplain,
+                inputExplain: problemInfo.inputExplain,
+                outputExplain: problemInfo.outputExplain,
+                note: problemInfo.note
+            }
+            const problemCreationRes = await axios.post(`${APIConfig.url}/problemInfos/problems`, problemInfoToSend, requestHeader);
+            const problemId = problemCreationRes.data.id;
+
+            for(let exampleIndex=0; exampleIndex<problemInfo.examples.length; exampleIndex++)
+            {
+                const problemExample = problemInfo.examples[exampleIndex]
+                const exampleToSend = {
+                    inputValue: problemExample.input,
+                    outputValue: problemExample.output,
+                    problemId: problemId
+                }
+                await axios.post(`${APIConfig.url}/problemInfos/examples`, exampleToSend, requestHeader);
+            }
+
+            for(let testcaseIndex=0; testcaseIndex<problemInfo.testcases.length; testcaseIndex++)
+            {
+                const testcaseExample = problemInfo.testcases[testcaseIndex]
+                const testcaseToSend = {
+                    inputValue: testcaseExample.input,
+                    outputValue: testcaseExample.output,
+                    problemId: problemId
+                }
+                await axios.post(`${APIConfig.url}/submissionInfos/testcases`, testcaseToSend, requestHeader);
+            }
+
+            addAlertPopUp("문제 생성이 성공적으로 완료되었습니다.", "success");
+            navigate("/problem/editing/showOnlyEditable");
 
         } catch (error) {
             addAlertPopUp("문제 생성 도중 에러가 발생했습니다!", "error");
@@ -266,7 +301,7 @@ const CreateProblemPage = () => {
                     </Button>
                 </Toolbar>
                 <Dialog open={dialogStatus.isExampleCreationDialogOpend} onClose={()=>{changeDialogStatus("ExampleCreation", false)}}>
-                    <DialogTitle>예제 추가</DialogTitle>
+                    <DialogTitle sx={{color: "black", fontWeight: "bolder", fontFamily: "BMDfont"}}>예제 추가</DialogTitle>
                     <DialogContent>
                         <TextField
                             label="입력값"
@@ -277,7 +312,6 @@ const CreateProblemPage = () => {
 
                             margin="normal"
                             fullWidth
-                            required
 
                             rows={4}
                             multiline
@@ -301,7 +335,7 @@ const CreateProblemPage = () => {
                         <Button onClick={() => {
                             handleExampleSubmit();
                             changeDialogStatus("ExampleCreation", false);
-                        }}>추가</Button>
+                        }} sx={{color: "black", fontWeight: "bolder", fontFamily: "BMDfont"}}>추가</Button>
                     </DialogActions>
                 </Dialog>
                 <hr style={{border: "solid 0.1px lightgray", opacity: "0.25"}}/>
@@ -325,7 +359,7 @@ const CreateProblemPage = () => {
                     </Button>
                 </Toolbar>
                 <Dialog open={dialogStatus.isTestcaseCreationDialogOpend} onClose={()=>{changeDialogStatus("TestcaseCreation", false)}}>
-                    <DialogTitle>테스트케이스 추가</DialogTitle>
+                    <DialogTitle sx={{color: "black", fontWeight: "bolder", fontFamily: "BMDfont"}}>테스트케이스 추가</DialogTitle>
                     <DialogContent>
                         <TextField
                             label="입력값"
@@ -336,7 +370,6 @@ const CreateProblemPage = () => {
 
                             margin="normal"
                             fullWidth
-                            required
 
                             rows={4}
                             multiline
@@ -360,7 +393,7 @@ const CreateProblemPage = () => {
                         <Button onClick={() => {
                             handleTestcaseSubmit();
                             changeDialogStatus("TestcaseCreation", false);
-                        }}>추가</Button>
+                        }} sx={{color: "black", fontWeight: "bolder", fontFamily: "BMDfont"}}>추가</Button>
                     </DialogActions>
                 </Dialog>
                 <hr style={{border: "solid 0.1px lightgray", opacity: "0.25"}}/>
@@ -377,7 +410,7 @@ const CreateProblemPage = () => {
 
 
                 <hr style={{border: "solid 0.1px lightgray", opacity: "0.25"}}/>
-                <Button type="submit" variant="contained" color="primary" fullWidth sx={{marginTop: 1, fontFamily: "BMDfont"}}>
+                <Button type="submit" variant="contained" color="primary" fullWidth sx={{marginTop: 1, fontFamily: "BMDfont", marginBottom:1}}>
                     문제 생성
                 </Button>
             </form>
