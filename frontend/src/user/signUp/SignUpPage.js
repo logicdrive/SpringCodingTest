@@ -6,7 +6,7 @@ import APIConfig from "../../APIConfig";
 import { AlertPopupContext } from "../../components/alertPopUp/AlertPopUpContext"
 
 const SignUpPage = () => {
-    const { addAlertPopUp } = useContext(AlertPopupContext)
+    const { addAlertPopUp } = useContext(AlertPopupContext);
     const navigate = useNavigate();
     const [signUpData, setSignUpData] = useState({
         email: "",
@@ -98,7 +98,7 @@ const SignUpPage = () => {
                 </Paper>
             </Container>
         </>
-    )
+    );
 }
 
 export default SignUpPage;

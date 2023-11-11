@@ -7,8 +7,8 @@ import { AlertPopupContext } from "../../components/alertPopUp/AlertPopUpContext
 import { JwtTokenContext } from "../../components/jwtToken/JwtTokenContext";
 
 const SignInPage = () => {
-    const { addAlertPopUp } = useContext(AlertPopupContext)
-    const { jwtTokenState, registerTokenValue } = useContext(JwtTokenContext)
+    const { addAlertPopUp } = useContext(AlertPopupContext);
+    const { registerTokenValue } = useContext(JwtTokenContext);
     const navigate = useNavigate();
     const [signInData, setSignInData] = useState({
         email: "",
@@ -23,10 +23,9 @@ const SignInPage = () => {
 
             const jwtToken = (await axios.post(`${APIConfig.url}/users/signIn`, signInData)).headers.authorization;
             registerTokenValue(jwtToken);
-            addAlertPopUp("로그인이 성공적으로 완료되었습니다", "success");
 
-            console.log(jwtTokenState);
-            // navigate("/");
+            addAlertPopUp("로그인이 성공적으로 완료되었습니다", "success");
+            navigate("/");
 
         } catch (error) {
             addAlertPopUp("로그인 도중 에러가 발생했습니다!", "error");
@@ -90,7 +89,7 @@ const SignInPage = () => {
                 </Paper>
             </Container>
         </>
-    )
+    );
 }
 
 export default SignInPage;

@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import AppBar from '@mui/material/AppBar';
 import { Link as RouterLink } from 'react-router-dom';
 import { Container, Toolbar, Link, Button, Typography } from '@mui/material';
+import { AlertPopupContext } from "../alertPopUp/AlertPopUpContext"
+import { JwtTokenContext } from "../jwtToken/JwtTokenContext";
 
 const Navigation = () => {
+    const { addAlertPopUp } = useContext(AlertPopupContext);
+    const { registerTokenValue } = useContext(JwtTokenContext);
+
     return (
         <AppBar position="static">
             <Container maxWidth="lg">
@@ -36,7 +41,7 @@ const Navigation = () => {
                 </Toolbar>
             </Container>
         </AppBar>
-    )
+    );
 }
 
 export default Navigation;
