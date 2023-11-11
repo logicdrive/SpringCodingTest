@@ -4,7 +4,8 @@ import { Container } from "@mui/material";
 
 import Navigation from "./components/navigation/Navigation"
 import { AlertPopupProvider } from "./components/alertPopUp/AlertPopUpContext"
-import AlertPopUpList from "./components/alertPopUp/AlertPopUpList"
+import AlertPopUpList from "./components/alertPopUp/AlertPopUpList";
+import { JwtTokenProvider } from "./components/jwtToken/JwtTokenContext";
 
 import ShowAllProblemPage from "./problem/showing/showAll/ShowAllProblemPage";
 import ShowOneProblemPage from "./problem/showing/showOne/ShowOneProblemPage";
@@ -24,26 +25,28 @@ function App() {
   return (
     <Container maxWidth="lg">
       <AlertPopupProvider>
-        <Router>
-          <Navigation/>
-          <Routes>
-              <Route path="/" element={<ShowAllProblemPage/>} />
-              <Route path="/problem/showing/showAll" element={<ShowAllProblemPage/>} />
-              <Route path="/problem/showing/showOne/:problemId" element={<ShowOneProblemPage/>} />
+        <JwtTokenProvider>
+          <Router>
+            <Navigation/>
+            <Routes>
+                <Route path="/" element={<ShowAllProblemPage/>} />
+                <Route path="/problem/showing/showAll" element={<ShowAllProblemPage/>} />
+                <Route path="/problem/showing/showOne/:problemId" element={<ShowOneProblemPage/>} />
 
-              <Route path="/problem/submission/submit/:problemId" element={<SubmitPage/>} />
-              <Route path="/problem/submission/showSubmissionAll/:problemId" element={<ShowAllSubmissionPage/>} />
-              <Route path="/problem/submission/showSubmissionOne/:submissionId" element={<ShowOneSubmissionPage/>} />
+                <Route path="/problem/submission/submit/:problemId" element={<SubmitPage/>} />
+                <Route path="/problem/submission/showSubmissionAll/:problemId" element={<ShowAllSubmissionPage/>} />
+                <Route path="/problem/submission/showSubmissionOne/:submissionId" element={<ShowOneSubmissionPage/>} />
 
-              <Route path="/problem/editing/edit/:problemId" element={<EditProblemPage/>} />
-              <Route path="/problem/editing/showOnlyEditable" element={<ShowOnlyEditableProblemPage/>} />
+                <Route path="/problem/editing/edit/:problemId" element={<EditProblemPage/>} />
+                <Route path="/problem/editing/showOnlyEditable" element={<ShowOnlyEditableProblemPage/>} />
 
 
-              <Route path="/user/signup" element={<SignUpPage/>} />
-              <Route path="/user/signin" element={<SignInPage/>} />
-          </Routes>
-        </Router>
-        <AlertPopUpList/>
+                <Route path="/user/signup" element={<SignUpPage/>} />
+                <Route path="/user/signin" element={<SignInPage/>} />
+            </Routes>
+          </Router>
+          <AlertPopUpList/>
+        </JwtTokenProvider>
       </AlertPopupProvider>
     </Container>
   );

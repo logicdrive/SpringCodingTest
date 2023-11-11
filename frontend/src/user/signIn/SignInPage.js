@@ -4,9 +4,11 @@ import { Container, Paper, Button, TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import APIConfig from "../../APIConfig";
 import { AlertPopupContext } from "../../components/alertPopUp/AlertPopUpContext"
+import { JwtTokenContext } from "../../components/jwtToken/JwtTokenContext";
 
 const SignInPage = () => {
     const { addAlertPopUp } = useContext(AlertPopupContext)
+    const { jwtTokenState, registerTokenValue } = useContext(JwtTokenContext)
     const navigate = useNavigate();
     const [signInData, setSignInData] = useState({
         email: "",
@@ -20,8 +22,10 @@ const SignInPage = () => {
         try {
 
             const jwtToken = (await axios.post(`${APIConfig.url}/users/signIn`, signInData)).headers.authorization;
-            console.log(jwtToken);
+            registerTokenValue(jwtToken);
             addAlertPopUp("로그인이 성공적으로 완료되었습니다", "success");
+
+            console.log(jwtTokenState);
             // navigate("/");
 
         } catch (error) {
