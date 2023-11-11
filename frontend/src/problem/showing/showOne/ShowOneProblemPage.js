@@ -1,41 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { Toolbar, Typography, Grid,
-    TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
+import { Toolbar, Typography, Grid } from '@mui/material';
 import axios from 'axios';
 import APIConfig from "../../../APIConfig";
 import ProblemSubmissionNavigation from '../../navigation/ProblemSubmissionNavigation';
 
 const ShowOneProblemPage = () => {
-    const [problemInfo, setProblemInfo] = useState({});
     const { problemId } = useParams();
     const navigate = useNavigate();
+
+    const [problemInfo, setProblemInfo] = useState({});
+    const [examples, setExamples] = useState([]);
+
 
     useEffect(() => {
         (async () => {
             try {
-              const response = await axios.get(`${APIConfig.url}/problemInfos/problems/${problemId}`);
-              setProblemInfo(response.data);
+                const problemInfoRes = await axios.get(`${APIConfig.url}/problemInfos/problems/${problemId}`);
+                setProblemInfo(problemInfoRes.data);
+
+                const examplesRes = await axios.get(`${APIConfig.url}/problemInfos/examples?problemId=${problemId}`);
+                setExamples(examplesRes.data.examples)
             } catch (error) {
                 console.error("문제 세부내용을 로드하는 도중 에러가 발생했습니다!", error);
             }
         })()
     }, [problemId]);
-
-    // {
-    //     "id": 1,
-    //     "title": "Hello, World !",
-    //     "timeLimitSecond": 1,
-    //     "memoryLimitMb": 256,
-    //     "problemExplain": "Print 'Hello, World !'.",
-    //     "inputExplain": "Input is not exist.",
-    //     "outputExplain": "Output 'Hello, World !'(No single quoto).",
-    //     "note": "",
-    //     "createrEmail": "testEmail1@gmail.com",
-    //     "createrName": "testName1"
-    // }
-
 
     return (
         <>
@@ -61,11 +52,11 @@ const ShowOneProblemPage = () => {
                     <Typography sx={{color: "black", fontWeight: "bolder", fontFamily: "BMDfont", flexGrow: 1}}>{problemInfo.memoryLimitMb} MB</Typography>
                 </Grid>
             </Grid>
-            <hr style={{border: "solid 0.1px lightgray", opacity: "0.25"}}/>
+            <hr style={{border: "solid 0.1px lightgray", opacity: "0.75"}}/>
 
 
 
-            <Toolbar sx={{paddingTop: 2}} variant="none" disableGutters>
+            <Toolbar sx={{paddingTop: 5}} variant="none" disableGutters>
                 <Typography sx={{color: "black", fontWeight: "bolder", fontFamily: "BMDfont"}}>문제</Typography>
             </Toolbar>
             <hr style={{border: "solid 0.1px lightgray", opacity: "0.25"}}/>
@@ -84,6 +75,44 @@ const ShowOneProblemPage = () => {
             </Toolbar>
             <hr style={{border: "solid 0.1px lightgray", opacity: "0.25"}}/>
             <Typography sx={{color: "black", fontWeight: "bolder", fontFamily: "BMHfont", whiteSpace: "pre-line"}}>{problemInfo.outputExplain}</Typography>
+        
+
+            <hr style={{border: "solid 0.1px lightgray", opacity: "0.75"}}/>
+            {
+                examples.map((example, index) => {
+                    return (
+                        <>
+                            <Toolbar sx={{paddingTop: 5}} variant="none" disableGutters>
+                                <Typography sx={{color: "black", fontWeight: "bolder", fontFamily: "BMDfont"}}>예제 {index+1}</Typography>
+                            </Toolbar>
+                            <hr style={{border: "solid 0.1px lightgray", opacity: "0.25"}}/>
+
+                            <Typography sx={{color: "black", fontFamily: "BMDfont"}}>입력값</Typography>
+                            <hr style={{border: "solid 0.1px lightgray", opacity: "0.25"}}/>
+                            <Typography sx={{color: "black", fontWeight: "bolder", fontFamily: "BMHfont", whiteSpace: "pre-line"}}>{example.inputValue}</Typography>
+                            
+                            <Typography sx={{color: "black", fontFamily: "BMDfont", marginTop:3}}>출력값</Typography>
+                            <hr style={{border: "solid 0.1px lightgray", opacity: "0.25"}}/>
+                            <Typography sx={{color: "black", fontWeight: "bolder", fontFamily: "BMHfont", whiteSpace: "pre-line"}}>{example.outputValue}</Typography>
+                        </>
+                    )
+                })
+            }
+            <hr style={{border: "solid 0.1px lightgray", opacity: "0.75"}}/>
+
+
+            <Toolbar sx={{paddingTop: 5}} variant="none" disableGutters>
+                <Typography sx={{color: "black", fontWeight: "bolder", fontFamily: "BMDfont"}}>노트</Typography>
+            </Toolbar>
+            <hr style={{border: "solid 0.1px lightgray", opacity: "0.25"}}/>
+            <Typography sx={{color: "black", fontWeight: "bolder", fontFamily: "BMHfont", whiteSpace: "pre-line"}}>{problemInfo.note}</Typography>
+
+
+            <Toolbar sx={{paddingTop: 5}} variant="none" disableGutters>
+                <Typography sx={{color: "black", fontWeight: "bolder", fontFamily: "BMDfont"}}>정보</Typography>
+            </Toolbar>
+            <hr style={{border: "solid 0.1px lightgray", opacity: "0.25"}}/>
+            <Typography sx={{color: "black", fontWeight: "bolder", fontFamily: "BMHfont", whiteSpace: "pre-line", marginBottom: 10}}>제작자: {problemInfo.createrName}({problemInfo.createrEmail})</Typography>
         </>
     );
 }
