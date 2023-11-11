@@ -36,7 +36,7 @@ const JwtTokenProvider = ({ children }) => {
         const tokenPayload = JSON.parse(atob(jwtToken.split(".")[1]))
     
         dispatch({type: REGISTER_TOKEN_VALUE, payload: {
-            value:jwtToken, email:tokenPayload.sub, name:tokenPayload.name
+            value:jwtToken, email:tokenPayload.sub, name:tokenPayload.name, Authorization:`Bearer ${jwtToken}`
         }})
     };
     const deleteTokenValue = () => {
