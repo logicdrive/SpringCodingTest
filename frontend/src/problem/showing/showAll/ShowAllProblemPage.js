@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Toolbar, Typography,
          TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
 import axios from 'axios';
@@ -6,6 +7,7 @@ import APIConfig from "../../../APIConfig";
 
 const ShowAllProblemPage = () => {
     const [problems, setProblems] = useState([]);
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -39,7 +41,7 @@ const ShowAllProblemPage = () => {
                     <TableBody>
                         {
                             problems.map((problem) => (
-                                <TableRow key={problem.id}>
+                                <TableRow key={problem.id} sx={{cursor: "pointer"}} onClick={() => {navigate(`/problem/showing/showOne/${problem.id}`);}}>
                                     <TableCell  align="center" padding="none" sx={{padding: 1}}>{problem.id}</TableCell>
                                     <TableCell  align="left" padding="none" sx={{padding: 1}}>{problem.title}</TableCell>
                                     <TableCell  align="center" padding="none" sx={{padding: 1}}>{problem.createrName}</TableCell>
