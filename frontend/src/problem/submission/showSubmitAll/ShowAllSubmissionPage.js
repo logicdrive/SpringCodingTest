@@ -23,6 +23,15 @@ const ShowAllSubmissionPage = () => {
         })()
     }, [problemId]);
 
+    
+    const translateVerdict = (verdict) => {
+        if(verdict.includes("Accepted")) return "맞았습니다!!"
+        if(verdict.includes("WrongAnswer")) return "틀렸습니다"
+        if(verdict.includes("TimeLimitExceeded")) return "시간 초과"
+        if(verdict.includes("MemoryLimitExceeded")) return "메모리 초과"
+        return verdict;
+    }
+
     return (
         <>
             <ProblemSubmissionNavigation/>
@@ -49,7 +58,7 @@ const ShowAllSubmissionPage = () => {
                                     <TableCell  align="center" padding="none" sx={{padding: 1}}>{submission.id}</TableCell>
                                     <TableCell  align="center" padding="none" sx={{padding: 1}}>{submission.creatorName}</TableCell>
                                     <TableCell  align="center" padding="none" sx={{padding: 1}}>{submission.problemId}</TableCell>
-                                    <TableCell  align="center" padding="none" sx={{padding: 1}}>{submission.verdict}</TableCell>
+                                    <TableCell  align="center" padding="none" sx={{padding: 1}}>{translateVerdict(submission.verdict)}</TableCell>
                                     <TableCell  align="center" padding="none" sx={{padding: 1}}>{submission.memoryKb} KB</TableCell>
                                     <TableCell  align="center" padding="none" sx={{padding: 1}}>{submission.timeMilisecond} ms</TableCell>
                                     <TableCell  align="center" padding="none" sx={{padding: 1}}>{submission.language}</TableCell>
