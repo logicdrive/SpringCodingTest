@@ -1,0 +1,3 @@
+# docker 전용 backend 서버 IP 주소
+backend:
+  ip: host.docker.internal

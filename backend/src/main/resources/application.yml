@@ -1,0 +1,37 @@
+# 기본 서버 설정
+server.port: 8080
+
+# 데이터베이스 설정
+spring:
+  datasource.url: jdbc:h2:mem:testdb
+  h2.console:
+    enabled: true
+    path: /h2-console
+  jpa.open-in-view: true
+
+# Swagger(Rest API Docs Helper) 설정
+springdoc:
+  webjars.prefix: =v0.0.1
+  packages-to-scan: com.toy.codingtest
+  swagger-ui:
+    path: /api-docs
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /api-docs/json
+    groups.enabled: true
+  cache.disabled: true
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+
+# JWT 설정 및 인증을 위한 Public & Private 키 경로
+jwt:
+  issuer: toycodingtest.io
+  expire-after-seconds: 36000
+  public.key: classpath:rsa.public.key
+  private.key: classpath:rsa.private.key
+
+# submission 서버 IP 주소
+submission:
+  ip: localhost
+  port: 48081

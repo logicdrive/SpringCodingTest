@@ -1,0 +1,3 @@
+# docker 전용 submission 서버 IP 주소
+submission:
+  ip: host.docker.internal

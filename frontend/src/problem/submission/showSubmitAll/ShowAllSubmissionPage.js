@@ -27,6 +27,7 @@ const ShowAllSubmissionPage = () => {
     const translateVerdict = (verdict) => {
         if(verdict === undefined) return ""
 
+        if(verdict.includes("Marking")) return "채점중..."
         if(verdict.includes("Accepted")) return "맞았습니다!!"
         if(verdict.includes("WrongAnswer")) return "틀렸습니다"
         if(verdict.includes("TimeLimitExceeded")) return "시간 초과"

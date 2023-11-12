@@ -38,9 +38,7 @@ const SubmitPage = () => {
             await axios.post(`${APIConfig.url}/submissionInfos/submissions`, submissionToSend, requestHeader);
 
             addAlertPopUp("제출이 성공적으로 완료되었습니다.", "success");
-            setTimeout(() => {
-                navigate(`/problem/submission/showSubmissionAll/${problemId}`);
-            }, 3000);
+            navigate(`/problem/submission/showSubmissionAll/${problemId}`);
 
         } catch (error) {
             addAlertPopUp("제출 에러가 발생했습니다!", "error");
