@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  my_springcodingtest_backend:
+    image: sinsung6722/springcodingtest_backend:v1
+    ports:
+      - "8080:8080"
+
+  my_springcodingtest_submission:
+    image: sinsung6722/springcodingtest_submission:v1
+    ports:
+      - "48081:48081"
+
+  my_springcodingtest_frontend:
+    image: sinsung6722/springcodingtest_frontend:v1
+    ports:
+      - "3000:3000"
