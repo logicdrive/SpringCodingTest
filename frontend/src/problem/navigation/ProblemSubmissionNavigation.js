@@ -17,7 +17,7 @@ const ProblemSubmissionNavigation = () => {
                 <Typography sx={{color: ((location.pathname.includes("/problem/submission/submit") ? "cornflowerblue" : "black")), fontWeight: "bolder", fontFamily: "BMDfont", marginLeft:2, cursor: "pointer"}}
                     onClick={() => {navigate(`/problem/submission/submit/${problemId}`);}}>제출</Typography>
                 
-                <Typography sx={{color: ((location.pathname.includes("/problem/submission/showSubmissionAll") ? "cornflowerblue" : "black")), fontWeight: "bolder", fontFamily: "BMDfont", marginLeft:2, cursor: "pointer"}}
+                <Typography sx={{color: (((location.pathname.includes("/problem/submission/showSubmissionAll")||location.pathname.includes("/problem/submission/showSubmissionOne")) ? "cornflowerblue" : "black")), fontWeight: "bolder", fontFamily: "BMDfont", marginLeft:2, cursor: "pointer"}}
                     onClick={() => {navigate(`/problem/submission/showSubmissionAll/${problemId}`);}}>채점내역</Typography>
             </Toolbar>
             <hr/>

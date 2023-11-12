@@ -36,7 +36,7 @@ function App() {
 
                 <Route path="/problem/submission/submit/:problemId" element={<SubmitPage/>} />
                 <Route path="/problem/submission/showSubmissionAll/:problemId" element={<ShowAllSubmissionPage/>} />
-                <Route path="/problem/submission/showSubmissionOne/:submissionId" element={<ShowOneSubmissionPage/>} />
+                <Route path="/problem/submission/showSubmissionOne/:problemId/:submissionId" element={<ShowOneSubmissionPage/>} />
 
                 <Route path="/problem/editing/create" element={<CreateProblemPage/>} />
                 <Route path="/problem/editing/edit/:problemId" element={<EditProblemPage/>} />
