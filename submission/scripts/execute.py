@@ -57,7 +57,8 @@ def getResults(submitCodeFilePath:str, inputsDirPath:str) -> list :
 def codeExecutionInfo(codePath:str, inputPath:str) :
     start_time_milisec = int(time.time() * 1000)
     
-    process = subprocess.Popen(["powershell.exe", f"cat {inputPath} | python {codePath}"], stdout=subprocess.PIPE, shell=True)
+    commands = ["powershell.exe", f"cat {inputPath} | python3 {codePath}"] if os.name == "nt" else [f"cat {inputPath} | python3 {codePath}"]
+    process = subprocess.Popen(commands, stdout=subprocess.PIPE, shell=True)
     psutilProcess = psutil.Process(process.pid)
     
     maxMemoryUsage = psutilProcess.memory_info().rss

@@ -68,7 +68,7 @@ public class ExecuteSubmissionService {
         try {
 
             Runtime.getRuntime().exec(String.join(" ", Arrays.asList(
-                "python", "scripts/execute.py",
+                "python3", "scripts/execute.py",
                     "--submissionId", executeSubmissionReqDto.getSubmissionId().toString(),
                     "--language", executeSubmissionReqDto.getLanguage(),
                     "--timeLimitSecond", String.valueOf(executeSubmissionReqDto.getTimeLimitSecond()),
