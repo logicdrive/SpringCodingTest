@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
@@ -40,6 +41,13 @@ public class ManageSubmissionService {
     private final JwtTokenService jwtTokenService;
 
 
+    @Value("${submission.ip}")
+    private String submissionServerIp;
+
+    @Value("${submission.port}")
+    private String submissionServerPort;
+
+
     public SubmissionEntity create(CreateSubmissionReqDto createSubmissionReqDto) {
         ProblemEntity problemToSave = problemRepository.findById(createSubmissionReqDto.getProblemId())
             .orElseThrow(() -> new ProblemNotFoundException());
@@ -70,7 +78,7 @@ public class ManageSubmissionService {
             })
             .collect(Collectors.toList()));
         
-        WebClient.create("http://localhost:48081/submissions/execute")
+        WebClient.create(String.format("http://%s:%s/submissions/execute", submissionServerIp, submissionServerPort))
             .post()
             .contentType(MediaType.APPLICATION_JSON)
             .body(BodyInserters.fromValue(request))
