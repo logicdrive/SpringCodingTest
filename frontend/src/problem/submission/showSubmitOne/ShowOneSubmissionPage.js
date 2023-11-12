@@ -9,15 +9,18 @@ import APIConfig from "../../../APIConfig";
 const ShowOneSubmissionPage = () => {
     const { submissionId } = useParams();
     const [submissionInfo, setSubmissionInfo] = useState([]);
-
+    const [submissionOutputs, setSubmissionOutputs] = useState([]);
 
     useEffect(() => {
         (async () => {
             try {
 
-              const response = await axios.get(`${APIConfig.url}/submissionInfos/submissions/${submissionId}`);
-              setSubmissionInfo(response.data);
+                const submissonInfoRes = await axios.get(`${APIConfig.url}/submissionInfos/submissions/${submissionId}`);
+                setSubmissionInfo(submissonInfoRes.data);
 
+                const submissionOutputRes = await axios.get(`${APIConfig.url}/submissionInfos/submissionOutputs?pageNumber=1&pageSize=50&submissionId=${submissionId}`);
+                setSubmissionOutputs(submissionOutputRes.data.submissionOutputs)
+            
             } catch (error) {
                 console.error("제출 세부내용을 로드하는 도중 에러가 발생했습니다!", error);
             }
@@ -26,7 +29,7 @@ const ShowOneSubmissionPage = () => {
 
 
     const translateVerdict = (verdict) => {
-        if(verdict == undefined) return ""
+        if(verdict === undefined) return ""
 
         if(verdict.includes("Accepted")) return "맞았습니다!!"
         if(verdict.includes("WrongAnswer")) return "틀렸습니다"
@@ -102,7 +105,32 @@ const ShowOneSubmissionPage = () => {
                 <Typography sx={{color: "black", fontWeight: "bolder", fontFamily: "BMDfont", paddingTop: 5}}>세부 채점 내역</Typography>
             </Toolbar>
             <hr style={{border: "solid 0.1px lightgray", opacity: "0.25"}}/>
-
+            <TableContainer>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="center" padding="none" sx={{paddingBottom: 1, fontFamily: "BMDfont"}}>ID</TableCell>
+                            <TableCell align="center" padding="none" sx={{paddingBottom: 1, fontFamily: "BMDfont"}}>실행시간</TableCell>
+                            <TableCell align="center" padding="none" sx={{paddingBottom: 1, fontFamily: "BMDfont"}}>메모리</TableCell>
+                            <TableCell align="center" padding="none" sx={{paddingBottom: 1, fontFamily: "BMDfont"}}>결과</TableCell>
+                            <TableCell align="center" padding="none" sx={{paddingBottom: 1, fontFamily: "BMDfont"}}>우선순위</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {
+                            submissionOutputs.map((submissionOutput) => (
+                                <TableRow key={submissionOutputs.id} sx={{cursor: "pointer"}} onClick={() => {}}>
+                                    <TableCell  align="center" padding="none" sx={{padding: 1}}>{submissionOutput.id}</TableCell>
+                                    <TableCell  align="center" padding="none" sx={{padding: 1}}>{submissionOutput.timeMilisecond} ms</TableCell>
+                                    <TableCell  align="center" padding="none" sx={{padding: 1}}>{submissionOutput.memoryKb} KB</TableCell>
+                                    <TableCell  align="center" padding="none" sx={{padding: 1}}>{translateVerdict(submissionOutput.verdict)}</TableCell>
+                                    <TableCell  align="center" padding="none" sx={{padding: 1}}>{submissionOutput.priority}</TableCell>
+                                </TableRow>
+                            ))
+                        }
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </>
     );
 }
