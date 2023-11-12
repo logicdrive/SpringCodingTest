@@ -26,10 +26,13 @@ const ShowOneSubmissionPage = () => {
 
 
     const translateVerdict = (verdict) => {
+        if(verdict == undefined) return ""
+
         if(verdict.includes("Accepted")) return "맞았습니다!!"
         if(verdict.includes("WrongAnswer")) return "틀렸습니다"
         if(verdict.includes("TimeLimitExceeded")) return "시간 초과"
         if(verdict.includes("MemoryLimitExceeded")) return "메모리 초과"
+        
         return verdict;
     }
 
@@ -77,7 +80,6 @@ const ShowOneSubmissionPage = () => {
             </Toolbar>
             <hr style={{border: "solid 0.1px lightgray", opacity: "0.25"}}/>
             <TextField
-                    label="코드"
                     name="code"
                     type="code"
 
@@ -95,6 +97,11 @@ const ShowOneSubmissionPage = () => {
                         readOnly: true,
                     }}
                 />
+
+            <Toolbar sx={{paddingTop: 0}} variant="none" disableGutters>
+                <Typography sx={{color: "black", fontWeight: "bolder", fontFamily: "BMDfont", paddingTop: 5}}>세부 채점 내역</Typography>
+            </Toolbar>
+            <hr style={{border: "solid 0.1px lightgray", opacity: "0.25"}}/>
 
         </>
     );
