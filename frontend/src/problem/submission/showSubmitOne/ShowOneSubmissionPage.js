@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Toolbar, Typography, Grid,
+import { Toolbar, Typography, Grid, TextField, 
          TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
 import ProblemSubmissionNavigation from '../../navigation/ProblemSubmissionNavigation';
 import axios from 'axios';
@@ -10,7 +10,7 @@ const ShowOneSubmissionPage = () => {
     const { submissionId } = useParams();
     const [submissionInfo, setSubmissionInfo] = useState([]);
 
-    
+
     useEffect(() => {
         (async () => {
             try {
@@ -71,6 +71,31 @@ const ShowOneSubmissionPage = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+
+            <Toolbar sx={{paddingTop: 0}} variant="none" disableGutters>
+                <Typography sx={{color: "black", fontWeight: "bolder", fontFamily: "BMDfont", paddingTop: 5}}>제출된 코드</Typography>
+            </Toolbar>
+            <hr style={{border: "solid 0.1px lightgray", opacity: "0.25"}}/>
+            <TextField
+                    label="코드"
+                    name="code"
+                    type="code"
+
+                    value={submissionInfo.code}
+
+                    variant="standard"
+                    margin="normal"
+                    fullWidth
+
+                    rows={10}
+                    multiline
+                    unedit
+
+                    InputProps={{
+                        readOnly: true,
+                    }}
+                />
+
         </>
     );
 }
