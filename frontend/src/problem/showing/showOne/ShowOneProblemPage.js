@@ -79,7 +79,7 @@ const ShowOneProblemPage = () => {
             {
                 examples.map((example, index) => {
                     return (
-                        <>
+                        <div key={index}>
                             <Toolbar sx={{paddingTop: 5}} variant="none" disableGutters>
                                 <Typography sx={{color: "black", fontWeight: "bolder", fontFamily: "BMDfont"}}>예제 {index+1}</Typography>
                             </Toolbar>
@@ -92,7 +92,7 @@ const ShowOneProblemPage = () => {
                             <Typography sx={{color: "black", fontFamily: "BMDfont", marginTop:3}}>출력값</Typography>
                             <hr style={{border: "solid 0.1px lightgray", opacity: "0.25"}}/>
                             <Typography sx={{color: "black", fontWeight: "bolder", fontFamily: "BMHfont", whiteSpace: "pre-line"}}>{example.outputValue}</Typography>
-                        </>
+                        </div>
                     )
                 })
             }

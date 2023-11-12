@@ -98,7 +98,6 @@ const ShowOneSubmissionPage = () => {
 
                     rows={10}
                     multiline
-                    unedit
 
                     InputProps={{
                         readOnly: true,
@@ -153,7 +152,6 @@ const ShowOneSubmissionPage = () => {
 
                             rows={4}
                             multiline
-                            unedit
 
                             InputProps={{
                                 readOnly: true,
@@ -170,7 +168,6 @@ const ShowOneSubmissionPage = () => {
 
                             rows={4}
                             multiline
-                            unedit
 
                             InputProps={{
                                 readOnly: true,
@@ -187,7 +184,6 @@ const ShowOneSubmissionPage = () => {
 
                             rows={4}
                             multiline
-                            unedit
 
                             InputProps={{
                                 readOnly: true,
