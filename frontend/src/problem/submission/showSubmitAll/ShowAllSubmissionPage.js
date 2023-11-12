@@ -25,10 +25,13 @@ const ShowAllSubmissionPage = () => {
 
     
     const translateVerdict = (verdict) => {
+        if(verdict == undefined) return ""
+
         if(verdict.includes("Accepted")) return "맞았습니다!!"
         if(verdict.includes("WrongAnswer")) return "틀렸습니다"
         if(verdict.includes("TimeLimitExceeded")) return "시간 초과"
         if(verdict.includes("MemoryLimitExceeded")) return "메모리 초과"
+        
         return verdict;
     }
 
