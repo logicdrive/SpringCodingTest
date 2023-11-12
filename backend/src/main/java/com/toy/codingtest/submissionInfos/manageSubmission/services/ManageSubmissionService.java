@@ -83,13 +83,31 @@ public class ManageSubmissionService {
     }
 
     public List<SubmissionEntity> findAll(FindAllSubmissionReqDto findAllSubmissionReqDto) {
-        return this.submissionRepository.findAll(
-            PageRequest.of(
-                findAllSubmissionReqDto.getPageNumber()-1,
-                findAllSubmissionReqDto.getPageSize(), 
-                Sort.by(Sort.Direction.ASC, "id")
-            )
-        ).toList();
+        if(findAllSubmissionReqDto.getType().equals("problem")) {
+
+            ProblemEntity problemToQuery = this.problemRepository.findById(Long.valueOf(findAllSubmissionReqDto.getQuery()))
+                .orElseThrow(() -> new ProblemNotFoundException());
+
+            return this.submissionRepository.findAllByProblem(
+                problemToQuery,
+                PageRequest.of(
+                    findAllSubmissionReqDto.getPageNumber()-1,
+                    findAllSubmissionReqDto.getPageSize(), 
+                    Sort.by(Sort.Direction.ASC, "id")
+                )
+            );
+
+        } else {
+
+            return this.submissionRepository.findAll(
+                PageRequest.of(
+                    findAllSubmissionReqDto.getPageNumber()-1,
+                    findAllSubmissionReqDto.getPageSize(), 
+                    Sort.by(Sort.Direction.ASC, "id")
+                )
+            ).toList();
+    
+        }
     }
 
     public SubmissionEntity findOne(Long id) {
