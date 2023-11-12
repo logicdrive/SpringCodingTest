@@ -14,7 +14,7 @@ def main() :
 
     resultsToSend = getResults(submitCodeFilePath, inputsDirPath)
 
-    url = "http://localhost:8080/submissionInfos/submissions/verdict/{}".format(args["submissionId"])
+    url = "http://{}:{}/submissionInfos/submissions/verdict/{}".format(args["backendIP"], args["backendPort"], args["submissionId"])
     requests.post(url, json={"results":resultsToSend}, headers={'Content-type': 'application/json'})
     shutil.rmtree(args["submitDirPath"], ignore_errors=True)
 
@@ -27,6 +27,8 @@ def getArgs() -> dict :
     parser.add_argument('-tl','--timeLimitSecond', help="timeLimitSecond", required=True)
     parser.add_argument('-ml','--memoryLimitMb', help="memoryLimitMb", required=True)
     parser.add_argument('-sdp','--submitDirPath', help="submitDirPath", required=True)
+    parser.add_argument('-bip','--backendIP', help="backendIP", required=True)
+    parser.add_argument('-bp','--backendPort', help="backendPort", required=True)
     return vars(parser.parse_args())
 
 # 최종적으로 생성된 결과값들을 만들기 위해서

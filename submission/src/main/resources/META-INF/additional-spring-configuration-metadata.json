@@ -1,0 +1,15 @@
+{
+    "properties": [
+        {
+            "name": "backend.ip",
+            "type": "java.lang.String",
+            "description": "backend 서버 IP 주소"
+        },
+
+        {
+            "name": "backend.port",
+            "type": "java.lang.String",
+            "description": "backend 서버 포트번호"
+        }
+    ]
+}

@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.toy.submission.components.services.StringService;
@@ -19,6 +20,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ExecuteSubmissionService {
     private final StringService stringService;
+
+    @Value("${backend.ip}")
+    private String backendServerIp;
+
+    @Value("${backend.port}")
+    private String backendServerPort;
+    
 
     public void execute(ExecuteSubmissionReqDto executeSubmissionReqDto) {
         // submissions 와 관련된 폴더가 없을 경우 구성시키기 위해서
@@ -73,7 +81,9 @@ public class ExecuteSubmissionService {
                     "--language", executeSubmissionReqDto.getLanguage(),
                     "--timeLimitSecond", String.valueOf(executeSubmissionReqDto.getTimeLimitSecond()),
                     "--memoryLimitMb", String.valueOf(executeSubmissionReqDto.getMemoryLimitMb()),
-                    "--submitDirPath", submitDirPath
+                    "--submitDirPath", submitDirPath,
+                    "--backendIP", this.backendServerIp,
+                    "--backendPort", this.backendServerPort
             )));
 
         } catch (IOException e) {
