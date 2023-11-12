@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 import { Toolbar, Typography, Grid } from '@mui/material';
 import axios from 'axios';
 import APIConfig from "../../../APIConfig";
@@ -8,7 +7,6 @@ import ProblemSubmissionNavigation from '../../navigation/ProblemSubmissionNavig
 
 const ShowOneProblemPage = () => {
     const { problemId } = useParams();
-    const navigate = useNavigate();
 
     const [problemInfo, setProblemInfo] = useState({});
     const [examples, setExamples] = useState([]);
