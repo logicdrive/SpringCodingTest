@@ -5,19 +5,25 @@ import shutil
 import time
 import psutil
 import subprocess
+import traceback
 
 
 def main() :
-    args = getArgs()
-    submitCodeFilePath = (args["submitDirPath"] + "code.py")
-    inputsDirPath = (args["submitDirPath"] + "inputs")
+    try :
 
-    resultsToSend = getResults(submitCodeFilePath, inputsDirPath)
+        args = getArgs()
+        submitCodeFilePath = (args["submitDirPath"] + "code.py")
+        inputsDirPath = (args["submitDirPath"] + "inputs")
 
-    url = "http://{}:{}/submissionInfos/submissions/verdict/{}".format(args["backendIP"], args["backendPort"], args["submissionId"])
-    requests.post(url, json={"results":resultsToSend}, headers={'Content-type': 'application/json'})
-    shutil.rmtree(args["submitDirPath"], ignore_errors=True)
+        resultsToSend = getResults(submitCodeFilePath, inputsDirPath)
 
+        url = "http://{}:{}/submissionInfos/submissions/verdict/{}".format(args["backendIP"], args["backendPort"], args["submissionId"])
+        requests.post(url, json={"results":resultsToSend}, headers={'Content-type': 'application/json'})
+        shutil.rmtree(args["submitDirPath"], ignore_errors=True)
+
+    except Exception as e:
+        with open("execute_error.txt", 'w') as file:
+            file.write(traceback.format_exc())
 
 # 사용자가 입력할 파라미터 값들을 생성하고, 받기 위해서
 def getArgs() -> dict :

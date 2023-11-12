@@ -12,6 +12,10 @@ RUN apk add py3-pip
 RUN python3 -m pip install --upgrade pip setuptools
 RUN python3 -m pip install --upgrade httpie
 
+RUN apk add gcc python3-dev
+RUN apk add build-base linux-headers
+RUN python3 -m pip install --upgrade psutil
+
 
 EXPOSE 48081
 
