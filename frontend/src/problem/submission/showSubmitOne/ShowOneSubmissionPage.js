@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Toolbar, Typography, Grid, TextField, 
-         TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
+import { Toolbar, Typography, TextField, 
+         TableContainer, Table, TableHead, TableRow, TableCell, TableBody,
+         Dialog, DialogTitle, DialogContent } from '@mui/material';
 import ProblemSubmissionNavigation from '../../navigation/ProblemSubmissionNavigation';
 import axios from 'axios';
 import APIConfig from "../../../APIConfig";
@@ -10,6 +11,9 @@ const ShowOneSubmissionPage = () => {
     const { submissionId } = useParams();
     const [submissionInfo, setSubmissionInfo] = useState([]);
     const [submissionOutputs, setSubmissionOutputs] = useState([]);
+    const [isSubmissionOutputDialogOpend, setIsSubmissionOutputDialogOpend] = useState(false);
+    const [submissionOutputInfo, setSubmissionOutputInfo] = useState({});
+
 
     useEffect(() => {
         (async () => {
@@ -63,7 +67,7 @@ const ShowOneSubmissionPage = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        <TableRow>
+                        <TableRow key="0">
                             <TableCell  align="center" padding="none" sx={{padding: 1}}>{submissionInfo.id}</TableCell>
                             <TableCell  align="center" padding="none" sx={{padding: 1}}>{submissionInfo.creatorName}</TableCell>
                             <TableCell  align="center" padding="none" sx={{padding: 1}}>{submissionInfo.problemId}</TableCell>
@@ -119,7 +123,11 @@ const ShowOneSubmissionPage = () => {
                     <TableBody>
                         {
                             submissionOutputs.map((submissionOutput) => (
-                                <TableRow key={submissionOutputs.id} sx={{cursor: "pointer"}} onClick={() => {}}>
+                                <TableRow key={submissionOutput.id} sx={{cursor: "pointer"}} onClick={async () => {
+                                    const response = await axios.get(`${APIConfig.url}/submissionInfos/submissionOutputs/${submissionOutput.id}`);
+                                    setSubmissionOutputInfo(response.data);
+                                    setIsSubmissionOutputDialogOpend(true);
+                                }}>
                                     <TableCell  align="center" padding="none" sx={{padding: 1}}>{submissionOutput.id}</TableCell>
                                     <TableCell  align="center" padding="none" sx={{padding: 1}}>{submissionOutput.timeMilisecond} ms</TableCell>
                                     <TableCell  align="center" padding="none" sx={{padding: 1}}>{submissionOutput.memoryKb} KB</TableCell>
@@ -131,6 +139,62 @@ const ShowOneSubmissionPage = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Dialog open={isSubmissionOutputDialogOpend} onClose={()=>{setIsSubmissionOutputDialogOpend(false)}}>
+                    <DialogTitle sx={{color: "black", fontWeight: "bolder", fontFamily: "BMDfont"}}>테스트케이스 입출력값 내역</DialogTitle>
+                    <DialogContent>
+                        <TextField
+                            label="입력값"
+                            name="inputValue"
+
+                            value={submissionOutputInfo.inputValue}
+
+                            margin="normal"
+                            fullWidth
+
+                            rows={4}
+                            multiline
+                            unedit
+
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                        />
+                        <TextField
+                            label="출력값"
+                            name="outputValue"
+
+                            value={submissionOutputInfo.outputValue}
+
+                            margin="normal"
+                            fullWidth
+
+                            rows={4}
+                            multiline
+                            unedit
+
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                        />
+                        <TextField
+                            label="기대값"
+                            name="expectedValue"
+
+                            value={submissionOutputInfo.expectedValue}
+
+                            margin="normal"
+                            fullWidth
+
+                            rows={4}
+                            multiline
+                            unedit
+
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                        />
+                    </DialogContent>
+                </Dialog>
         </>
     );
 }
