@@ -30,8 +30,13 @@ public class FindOneSubmissionResDto {
         this.verdict = submission.getVerdict();
         this.language = submission.getLanguage();
         this.code = submission.getCode();
-        this.sentAt = (new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(submission.getSentAt());
-        this.judgedAt = (new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(submission.getJudgedAt());
+
+        if(submission.getSentAt() == null) this.sentAt = "";
+        else this.sentAt = (new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(submission.getSentAt());
+
+        if(submission.getJudgedAt() == null) this.judgedAt = "";
+        else this.judgedAt = (new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(submission.getJudgedAt());
+        
         this.problemId = submission.getProblem().getId();
         this.problemTitle = submission.getProblem().getTitle();
         this.creatorEmail = submission.getCreator().getEmail();
