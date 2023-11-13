@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Container, Paper, Button, TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import APIConfig from "../../APIConfig";
-import { AlertPopupContext } from "../../components/alertPopUp/AlertPopUpContext"
+import { AlertPopupContext } from "../../components/alertPopUp/AlertPopUpContext";
+import SubNavigation from "../../components/navigation/SubNavigation";
 
 const SignUpPage = () => {
     const { addAlertPopUp } = useContext(AlertPopupContext);
@@ -41,8 +42,7 @@ const SignUpPage = () => {
     
     return (
         <>
-            <Typography sx={{color: "black", fontWeight: "bolder", fontFamily: "BMDfont", paddingTop:2}}>회원가입</Typography>
-            <hr/>
+            <SubNavigation>회원가입</SubNavigation>
 
             <Container sx={{width:"500px", paddingTop:2}}>
                 <Paper elevation={3} style={{ padding: '20px' }}>

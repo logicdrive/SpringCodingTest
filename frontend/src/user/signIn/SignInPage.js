@@ -5,7 +5,7 @@ import axios from 'axios';
 import APIConfig from "../../APIConfig";
 import { AlertPopupContext } from "../../components/alertPopUp/AlertPopUpContext"
 import { JwtTokenContext } from "../../components/jwtToken/JwtTokenContext";
-import globalStyles from '../../components/styles/globalStyles';
+import SubNavigation from "../../components/navigation/SubNavigation";
 
 const SignInPage = () => {
     const { addAlertPopUp } = useContext(AlertPopupContext);
@@ -45,8 +45,7 @@ const SignInPage = () => {
     
     return (
         <>
-            <Typography style={globalStyles.titleFont} sx={{paddingTop:2}}>로그인</Typography>
-            <hr/>
+            <SubNavigation>로그인</SubNavigation>
 
             <Container sx={{width:"500px", paddingTop:2}}>
                 <Paper elevation={3} style={{ padding: '20px' }}>
