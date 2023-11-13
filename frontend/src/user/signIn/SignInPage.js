@@ -5,6 +5,7 @@ import axios from 'axios';
 import APIConfig from "../../APIConfig";
 import { AlertPopupContext } from "../../components/alertPopUp/AlertPopUpContext"
 import { JwtTokenContext } from "../../components/jwtToken/JwtTokenContext";
+import globalStyles from '../../components/styles/globalStyles';
 
 const SignInPage = () => {
     const { addAlertPopUp } = useContext(AlertPopupContext);
@@ -40,11 +41,11 @@ const SignInPage = () => {
             [name]: value,
         }));
     };
-
+    
     
     return (
         <>
-            <Typography sx={{color: "black", fontWeight: "bolder", fontFamily: "BMDfont", paddingTop:2}}>로그인</Typography>
+            <Typography style={globalStyles.titleFont} sx={{paddingTop:2}}>로그인</Typography>
             <hr/>
 
             <Container sx={{width:"500px", paddingTop:2}}>
